@@ -1,0 +1,156 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Roxit Masterclass — Visma managed-settings template
+//
+// HOW TO USE
+//   1. Pick the restrictions Visma actually wants.
+//   2. Uncomment them (remove the leading // on the lines you keep).
+//   3. Save as plain JSON: /etc/claude-code/managed-settings.json
+//   4. Mount into the container at runtime:
+//        docker run ... \
+//          -v /path/to/managed-settings.json:/etc/claude-code/managed-settings.json:ro \
+//          ghcr.io/likeahuman-ai/roxit-masterclass:latest
+//
+// HOW IT WORKS
+//   Claude Code reads settings in this precedence order:
+//     1. Managed settings  (/etc/claude-code/managed-settings.json)  ← Visma controls
+//     2. CLI flags
+//     3. Project settings  (/workspace/.claude/settings.json)         ← LikeAHuman defaults
+//     4. Shared project    (/workspace/.claude/settings.local.json)
+//     5. User settings     (/home/dev/.claude/settings.json)          ← LikeAHuman defaults
+//   Managed settings ALWAYS WIN. Participants can't disable them locally.
+//
+// THE DEFAULT SHIPPED IMAGE IS PERMISSIVE (telemetry on, full WebFetch, full
+// Bash). Everything below is OPT-IN restriction — uncomment what you need.
+// ─────────────────────────────────────────────────────────────────────────────
+{
+  "$comment": "Visma managed overrides for Roxit Masterclass. All sections optional.",
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // TELEMETRY — point Claude Code at YOUR collector instead of stdout console
+  // ──────────────────────────────────────────────────────────────────────────
+  // "env": {
+  //   "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
+  //   "OTEL_METRICS_EXPORTER": "otlp",
+  //   "OTEL_LOGS_EXPORTER":    "otlp",
+  //   "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
+  //   "OTEL_EXPORTER_OTLP_ENDPOINT": "http://collector.visma.internal:4317",
+  //   "OTEL_EXPORTER_OTLP_HEADERS":  "Authorization=Bearer <visma-otel-token>",
+  //   "OTEL_RESOURCE_ATTRIBUTES":    "service.name=roxit-masterclass,deployment.environment=workshop"
+  // },
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // To DISABLE telemetry entirely (overrides our default-ON):
+  // ──────────────────────────────────────────────────────────────────────────
+  // "env": {
+  //   "CLAUDE_CODE_ENABLE_TELEMETRY": "0"
+  // },
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // PERMISSIONS — add to allow / ask / deny lists
+  //
+  // NB: "additionalDirectories" lets you whitelist host paths Claude can also
+  // read; we don't recommend opening this for the workshop.
+  // ──────────────────────────────────────────────────────────────────────────
+  "permissions": {
+
+    // Restrict to a specific permission mode.
+    //   "default"       — ask for non-allowlisted tools
+    //   "acceptEdits"   — auto-accept file edits (LikeAHuman default)
+    //   "plan"          — read-only, plans changes
+    //   "dontAsk"       — deny anything not on the allow list (strictest)
+    //   "bypassPermissions" — full power, no prompts (development only)
+    // "defaultMode": "default",
+
+    // Add these to the ALLOW list (auto-approved, no prompt)
+    "allow": [
+      // --- Internal git/GitLab over SSH only ---
+      // "Bash(git clone git@github.com:visma/*)",
+      // "Bash(git clone git@gitlab.visma.internal:*)",
+      // "Bash(gh repo clone visma/*)",
+
+      // --- Internal package registries ---
+      // "Bash(pnpm config set registry https://nexus.visma.internal/repository/npm/)",
+      // "Bash(npm config set registry https://nexus.visma.internal/repository/npm/)",
+
+      // --- Internal docs only ---
+      // "WebFetch(domain:docs.visma.internal)",
+      // "WebFetch(domain:wiki.visma.internal)"
+    ],
+
+    // Add these to the ASK list (Claude prompts before running)
+    "ask": [
+      // --- Confirm before any external git push ---
+      // "Bash(git push origin *)",
+      // "Bash(git push --force *)",
+
+      // --- Confirm before deploys ---
+      // "Bash(vercel deploy *)",
+      // "Bash(vercel --prod *)",
+      // "Bash(npx convex deploy *)",
+
+      // --- Confirm before installing new packages ---
+      // "Bash(pnpm add *)",
+      // "Bash(pnpm install *)",
+      // "Bash(npm install *)"
+    ],
+
+    // Add these to the DENY list (always blocked, even if Claude tries)
+    "deny": [
+      // --- Block all external git remotes (force internal-only) ---
+      // "Bash(git clone http*://github.com/*)",
+      // "Bash(git clone http*://gitlab.com/*)",
+      // "Bash(git remote add * http*://github.com/*)",
+
+      // --- Block public npm/yarn (force internal mirror) ---
+      // "Bash(pnpm * --registry=https://registry.npmjs.org*)",
+      // "Bash(npm * --registry=https://registry.npmjs.org*)",
+
+      // --- Block production deploys entirely ---
+      // "Bash(vercel --prod*)",
+      // "Bash(vercel deploy --prod*)",
+
+      // --- Block writes to anything outside the workspace ---
+      // "Edit(/home/**)",
+      // "Edit(/etc/**)",
+      // "Write(/home/**)",
+      // "Write(/etc/**)",
+
+      // --- Block WebFetch entirely (force fully offline lookups) ---
+      // "WebFetch",
+      // "WebSearch",
+
+      // --- Block specific high-risk tools ---
+      // "Bash(curl *)",
+      // "Bash(wget *)",
+      // "Bash(ssh *)",
+      // "Bash(scp *)",
+      // "Bash(rsync *)",
+      // "Bash(nc *)",
+      // "Bash(netcat *)",
+
+      // --- Block secrets/credential paths (defense-in-depth, also blocked at default) ---
+      // "Read(/run/secrets/**)",
+      // "Read(/var/run/secrets/**)",
+      // "Read(**/.env)",
+      // "Read(**/.env.*)",
+      // "Read(**/credentials*)"
+    ]
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // MODEL & VERSION POLICY (optional)
+  // ──────────────────────────────────────────────────────────────────────────
+  // "model": "claude-sonnet-4-6",                        // pin the model
+  // "$comment_model": "Force everyone to a specific model — useful for cost/quality control",
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // DISABLE INDIVIDUAL FEATURES via env (uncomment + add to "env" block above)
+  // ──────────────────────────────────────────────────────────────────────────
+  //   "DISABLE_AUTOUPDATER":          "1"   // already on by default in our image
+  //   "DISABLE_ERROR_REPORTING":      "1"   // no crash dumps to Anthropic
+  //   "DISABLE_TELEMETRY":            "1"   // legacy alias
+  //   "DISABLE_BUG_COMMAND":          "1"   // /bug command suppressed
+  //   "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1"  // no auto title-suggestions etc.
+  //   "BASH_DEFAULT_TIMEOUT_MS":      "30000"   // shorter Bash timeouts
+  //   "MCP_TIMEOUT":                  "10000"   // shorter MCP startup window
+}

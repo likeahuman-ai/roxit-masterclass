@@ -1,0 +1,59 @@
+FROM node:22-slim
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      ca-certificates curl git gnupg jq ripgrep less nano vim \
+    && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+       | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
+       > /etc/apt/sources.list.d/github-cli.list \
+    && apt-get update && apt-get install -y --no-install-recommends gh \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Workshop tooling — pinned where it matters, latest where it's safe.
+# Anything project-local is installed on-demand via pnpm/npx; this is the
+# baseline so first-runs and offline classrooms work without surprises.
+RUN npm install -g \
+      @anthropic-ai/claude-code@2.1.138 \
+      vercel \
+      convex \
+      tsx \
+      typescript \
+      create-next-app \
+      surf-cli
+
+RUN useradd -m -s /bin/bash dev && mkdir -p /workspace /workspace-starter /home/dev/.claude /etc/claude-code \
+    && chown -R dev:dev /workspace /workspace-starter /home/dev/.claude
+
+COPY --chown=dev:dev starter/ /workspace-starter/
+COPY --chown=dev:dev entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# User-level Claude settings apply when participants cd into sub-projects
+# (project-level settings only kick in inside /workspace).
+RUN cp /workspace-starter/.claude/settings.json /home/dev/.claude/settings.json \
+    && chown dev:dev /home/dev/.claude/settings.json
+
+# Defaults: telemetry ON (workshop visibility). Console exporter so participants
+# and trainers can SEE what's happening; Visma IT swaps to their OTLP collector
+# by mounting /etc/claude-code/managed-settings.json (template in starter/.claude/).
+# Auto-update OFF so the whole room runs the same pinned version end-to-end.
+ENV CLAUDE_CODE_ENABLE_TELEMETRY=1 \
+    OTEL_METRICS_EXPORTER=console \
+    OTEL_LOGS_EXPORTER=console \
+    OTEL_METRIC_EXPORT_INTERVAL=60000 \
+    OTEL_LOGS_EXPORT_INTERVAL=30000 \
+    OTEL_RESOURCE_ATTRIBUTES="service.name=roxit-masterclass,deployment.environment=workshop,service.version=0.3" \
+    DISABLE_AUTOUPDATER=1 \
+    DISABLE_ERROR_REPORTING=1 \
+    BASH_DEFAULT_TIMEOUT_MS=300000
+
+USER dev
+WORKDIR /workspace
+ENV HOME=/home/dev
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

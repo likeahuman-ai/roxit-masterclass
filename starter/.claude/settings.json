@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "$comment": "Workshop default = open. Visma IT can layer /etc/claude-code/managed-settings.json on top to restrict (managed settings always win over project + user settings).",
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write",
+      "TodoWrite",
+      "WebFetch",
+      "WebSearch",
+      "Bash"
+    ],
+    "ask": [
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~/*)",
+      "Bash(sudo *)"
+    ],
+    "deny": [
+      "Read(/home/dev/.ssh/**)",
+      "Read(/home/dev/.aws/**)",
+      "Read(/home/dev/.gnupg/**)",
+      "Read(/etc/shadow)",
+      "Bash(:(){ :|:& };:)"
+    ]
+  }
+}

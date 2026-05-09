@@ -1,0 +1,12 @@
+
+{
+  "$comment": "Visma managed overrides for Roxit Masterclass. All sections optional.",
+  "permissions": {
+    "allow": [
+    ],
+    "ask": [
+    ],
+    "deny": [
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$comment": "Voor Visma IT — kopieer dit naar /etc/claude-code/managed-settings.json om OTEL aan te zetten over alle deelnemers. Zonder deze file: telemetrie staat UIT.",
+  "env": {
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
+    "OTEL_METRICS_EXPORTER": "otlp",
+    "OTEL_LOGS_EXPORTER": "otlp",
+    "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
+    "OTEL_EXPORTER_OTLP_ENDPOINT": "http://collector.visma.internal:4317",
+    "OTEL_EXPORTER_OTLP_HEADERS": "Authorization=Bearer <visma-otel-token>",
+    "OTEL_METRIC_EXPORT_INTERVAL": "60000",
+    "OTEL_LOGS_EXPORT_INTERVAL": "30000"
+  }
+}
