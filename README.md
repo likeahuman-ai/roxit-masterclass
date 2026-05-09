@@ -40,7 +40,6 @@ No Node install. No git setup. No config. Works on macOS, Windows, and Linux.
 | 📦 | **Convex CLI** | Backend-as-a-service used in workshop exercises |
 | 🐙 | **GitHub CLI** | Repo management without leaving the terminal |
 | 🔍 | **ripgrep + jq** | Fast search and JSON parsing |
-| 🌊 | **surf-cli** | AI image generation from the terminal |
 | 📝 | **tsx + TypeScript** | Run `.ts` files directly, no compile step |
 
 ---

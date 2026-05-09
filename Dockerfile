@@ -23,8 +23,7 @@ RUN npm install -g \
       convex \
       tsx \
       typescript \
-      create-next-app \
-      surf-cli
+      create-next-app
 
 RUN useradd -m -s /bin/bash dev && mkdir -p /workspace /workspace-starter /home/dev/.claude /etc/claude-code \
     && chown -R dev:dev /workspace /workspace-starter /home/dev/.claude
