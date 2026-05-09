@@ -63,4 +63,7 @@ docker run -it --rm ^
   -v "%CLAUDE_VOLUME%:/home/dev/.claude" ^
   -e "ROXIT_HOST_WORKSHOP=%WORKDIR_HOST%" ^
   -e "ROXIT_HOST_OS=Windows" ^
+  -p 3000:3000 ^
+  -p 3001:3001 ^
+  -p 8080:8080 ^
   %IMAGE%
