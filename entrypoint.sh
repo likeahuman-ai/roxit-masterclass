@@ -35,7 +35,8 @@ cat <<EOF
   Type 'exit' to leave the sandbox. Your files persist.
 
   Pre-installed: claude, node, pnpm, npx, vercel, convex,
-                 tsx, typescript, create-next-app, surf, gh, git, rg, jq
+                 tsx, typescript, create-next-app, gh, git, rg, jq
+  Dev server:    localhost:3000 / :3001 / :8080 open in your browser
   Telemetry:     ${CLAUDE_CODE_ENABLE_TELEMETRY:+ON}${CLAUDE_CODE_ENABLE_TELEMETRY:-OFF} (exporter: ${OTEL_METRICS_EXPORTER:-none})
 ══════════════════════════════════════════════════════════════
 EOF
