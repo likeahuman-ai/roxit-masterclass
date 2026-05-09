@@ -38,9 +38,9 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN cp /workspace-starter/.claude/settings.json /home/dev/.claude/settings.json \
     && chown dev:dev /home/dev/.claude/settings.json
 
-# Defaults: telemetry ON (workshop visibility). Console exporter so participants
-# and trainers can SEE what's happening; Visma IT swaps to their OTLP collector
-# by mounting /etc/claude-code/managed-settings.json (template in starter/.claude/).
+# Defaults: telemetry ON so Visma can audit Claude Code usage across the organisation.
+# Console exporter by default; IT redirects to their OTLP collector by mounting
+# /etc/claude-code/managed-settings.json (template in starter/.claude/).
 # Auto-update OFF so the whole room runs the same pinned version end-to-end.
 ENV CLAUDE_CODE_ENABLE_TELEMETRY=1 \
     OTEL_METRICS_EXPORTER=console \
