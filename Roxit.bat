@@ -104,6 +104,7 @@ REM ─────────────────────────�
 set "PORT_FLAGS="
 set "PORT_DISPLAY="
 set "PORT_REMAPPED=0"
+set "ALLOCATED_HOST_PORTS= "
 
 call :allocate_port 3000
 call :allocate_port 3001
@@ -141,12 +142,19 @@ set "DESIRED=%~1"
 set "CANDIDATE=%DESIRED%"
 set /a "MAX=DESIRED+100"
 :port_loop
-netstat -ano | findstr /R /C:":%CANDIDATE% .*LISTENING" >nul 2>&1
+echo !ALLOCATED_HOST_PORTS! | findstr " !CANDIDATE! " >nul 2>&1
+if not errorlevel 1 (
+  set /a "CANDIDATE+=1"
+  if !CANDIDATE! GEQ !MAX! goto port_none
+  goto port_loop
+)
+netstat -ano | findstr /R /C:":!CANDIDATE! .*LISTENING" >nul 2>&1
 if errorlevel 1 goto port_free
 set /a "CANDIDATE+=1"
 if !CANDIDATE! GEQ !MAX! goto port_none
 goto port_loop
 :port_free
+set "ALLOCATED_HOST_PORTS=!ALLOCATED_HOST_PORTS!!CANDIDATE! "
 set "PORT_FLAGS=!PORT_FLAGS! -p !CANDIDATE!:!DESIRED!"
 if "!CANDIDATE!"=="!DESIRED!" (
   set "PORT_DISPLAY=!PORT_DISPLAY!!LM!!DESIRED!!R!!D!->!DESIRED!!R! "

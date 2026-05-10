@@ -109,10 +109,18 @@ port_in_use() {
   fi
 }
 
+ALLOCATED_HOST_PORTS=""
+is_allocated() {
+  case " $ALLOCATED_HOST_PORTS " in *" $1 "*) return 0 ;; esac
+  return 1
+}
+
 find_free_port() {
-  local desired="$1" candidate="$desired" max=$((desired + 100))
+  local desired="$1"
+  local candidate="$desired"
+  local max=$((desired + 100))
   while [ "$candidate" -lt "$max" ]; do
-    if ! port_in_use "$candidate"; then
+    if ! port_in_use "$candidate" && ! is_allocated "$candidate"; then
       echo "$candidate"; return 0
     fi
     candidate=$((candidate + 1))
@@ -125,6 +133,7 @@ PORT_DISPLAY=""
 PORT_REMAPPED=0
 for p in "${DESIRED_PORTS[@]}"; do
   if free=$(find_free_port "$p"); then
+    ALLOCATED_HOST_PORTS="$ALLOCATED_HOST_PORTS $free"
     PORT_FLAGS+=( -p "$free:$p" )
     if [ "$free" = "$p" ]; then
       PORT_DISPLAY+="${LM}${p}${R}${D}→${p}${R} "

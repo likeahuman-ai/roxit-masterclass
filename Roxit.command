@@ -111,10 +111,22 @@ step_ok "Workspace" "$WORKDIR_HOST"
 # ─────────────────────────────────────────────────────────────────────────────
 port_in_use() { nc -z 127.0.0.1 "$1" 2>/dev/null; }
 
+# Tracks host ports already claimed by earlier iterations so we don't
+# double-bind (e.g. 3000 busy → assign 3001 to container:3000, then need
+# a different port for container:3001).
+ALLOCATED_HOST_PORTS=""
+
+is_allocated() {
+  case " $ALLOCATED_HOST_PORTS " in *" $1 "*) return 0 ;; esac
+  return 1
+}
+
 find_free_port() {
-  local desired="$1" candidate="$desired" max=$((desired + 100))
+  local desired="$1"
+  local candidate="$desired"
+  local max=$((desired + 100))
   while [ "$candidate" -lt "$max" ]; do
-    if ! port_in_use "$candidate"; then
+    if ! port_in_use "$candidate" && ! is_allocated "$candidate"; then
       echo "$candidate"; return 0
     fi
     candidate=$((candidate + 1))
@@ -127,6 +139,7 @@ PORT_DISPLAY=""
 PORT_REMAPPED=0
 for p in "${DESIRED_PORTS[@]}"; do
   if free=$(find_free_port "$p"); then
+    ALLOCATED_HOST_PORTS="$ALLOCATED_HOST_PORTS $free"
     PORT_FLAGS+=( -p "$free:$p" )
     if [ "$free" = "$p" ]; then
       PORT_DISPLAY+="${LM}${p}${R}${D}→${p}${R} "
