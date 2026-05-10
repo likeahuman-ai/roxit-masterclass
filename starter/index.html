@@ -279,6 +279,46 @@ body {
   background:var(--green-t); color:var(--green);
   border:1px solid var(--green-t2);
 }
+.plugin-sub-list { margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+.plugin-sub-item { display:flex; align-items:baseline; gap:10px; min-width:0; }
+.plugin-sub-item .psi-cmd {
+  font-family:'Courier New',monospace; font-size:11px; font-weight:700;
+  color:var(--green); white-space:nowrap; flex-shrink:0;
+}
+.plugin-sub-item .psi-desc { font-size:12px; color:var(--text-dim); line-height:1.45; }
+
+/* =====================================================
+   TIPS SECTION
+   ===================================================== */
+.tips-section { background:var(--bg); }
+.tips-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+@media(max-width:900px){ .tips-grid { grid-template-columns:1fr; } }
+.tip-shell {
+  background:var(--green-t); border:1px solid var(--green-t2);
+  border-radius:20px; padding:3px;
+  transition:transform 0.6s var(--ease-spring),box-shadow 0.6s var(--ease-spring);
+}
+.tip-shell:hover { transform:translate3d(0,-3px,0); box-shadow:0 12px 32px -12px rgba(20,63,38,0.14); }
+.tip-card { background:var(--white); border-radius:18px; padding:26px 24px; min-width:0; height:100%; }
+.tip-label {
+  font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:2px;
+  color:var(--green); margin-bottom:14px; display:flex; align-items:center; gap:8px;
+}
+.tip-label::before { content:''; display:block; width:16px; height:2px; background:var(--green); border-radius:2px; flex-shrink:0; }
+.tip-title { font-size:16px; font-weight:700; color:var(--dark); margin-bottom:16px; line-height:1.3; }
+.tip-list { display:flex; flex-direction:column; gap:10px; list-style:none; padding:0; margin:0; }
+.tip-list li { display:flex; gap:10px; align-items:baseline; min-width:0; }
+.tip-list li .tl-cmd {
+  font-family:'Courier New',monospace; font-size:11px; font-weight:700;
+  color:var(--green); flex-shrink:0; white-space:nowrap;
+}
+.tip-list li .tl-desc { font-size:13px; color:var(--text-dim); line-height:1.5; }
+.tip-callout {
+  margin-top:16px; padding:14px 16px; border-radius:10px;
+  background:var(--green-t); border-left:3px solid var(--green);
+  font-size:12px; color:var(--text-dim); line-height:1.55;
+}
+.tip-callout strong { color:var(--dark); font-weight:600; }
 
 /* =====================================================
    FLOWS — double-bezel, white inner
@@ -509,7 +549,14 @@ body {
     <div class="plugins-grid">
       <div class="plugin-shell reveal s1"><div class="plugin-card"><div class="plugin-name">superpowers</div><div class="plugin-badge">Foundation</div><p class="plugin-desc">Het framework dat alle skills vindbaar maakt. Vereist fundament &mdash; alles draait hierop.</p></div></div>
       <div class="plugin-shell reveal s2"><div class="plugin-card"><div class="plugin-name">frontend-design</div><div class="plugin-badge">Design</div><p class="plugin-desc">Layout systemen, visuele hi&euml;rarchie en compositieprincipes voor elke UI-generatie.</p><div class="plugin-sub"><span class="plugin-sub-tag">/frontend-design</span></div></div></div>
-      <div class="plugin-shell reveal s3"><div class="plugin-card"><div class="plugin-name">impeccable</div><div class="plugin-badge">UI Quality</div><p class="plugin-desc">Agency-tier UI kwaliteit. Gefocuste sub-skills voor elke designdimensie.</p><div class="plugin-sub"><span class="plugin-sub-tag">/impeccable:typeset</span><span class="plugin-sub-tag">/impeccable:colorize</span><span class="plugin-sub-tag">/impeccable:layout</span><span class="plugin-sub-tag">/impeccable:animate</span><span class="plugin-sub-tag">/impeccable:polish</span></div></div></div>
+      <div class="plugin-shell reveal s3"><div class="plugin-card"><div class="plugin-name">impeccable</div><div class="plugin-badge">UI Quality</div><p class="plugin-desc">Agency-tier UI kwaliteit. Zes gefocuste sub-skills voor elke designdimensie.</p><div class="plugin-sub-list">
+        <div class="plugin-sub-item"><span class="psi-cmd">/impeccable:audit</span><span class="psi-desc">Volledig overzicht — start hier altijd</span></div>
+        <div class="plugin-sub-item"><span class="psi-cmd">/impeccable:typeset</span><span class="psi-desc">Tekst leest niet lekker: grootte, gewicht, witruimte</span></div>
+        <div class="plugin-sub-item"><span class="psi-cmd">/impeccable:colorize</span><span class="psi-desc">Contrast of kleurpalet verfijnen</span></div>
+        <div class="plugin-sub-item"><span class="psi-cmd">/impeccable:layout</span><span class="psi-desc">Grid en spacing — als het rommelig aanvoelt</span></div>
+        <div class="plugin-sub-item"><span class="psi-cmd">/impeccable:animate</span><span class="psi-desc">Micro-interacties en transitions toevoegen</span></div>
+        <div class="plugin-sub-item"><span class="psi-cmd">/impeccable:polish</span><span class="psi-desc">Finale QA pass vlak voor de demo</span></div>
+      </div></div></div>
       <div class="plugin-shell reveal s4"><div class="plugin-card"><div class="plugin-name">code-review</div><div class="plugin-badge">Quality</div><p class="plugin-desc">Gestructureerde multi-dimensie code review &mdash; architectuur, security, performance, test coverage.</p></div></div>
       <div class="plugin-shell reveal s1"><div class="plugin-card"><div class="plugin-name">code-simplifier</div><div class="plugin-badge">Refactor</div><p class="plugin-desc">Vereenvoudigt over-engineered code. Gebruik voor je commit &mdash; minder ruis, meer signal.</p></div></div>
       <div class="plugin-shell reveal s2"><div class="plugin-card"><div class="plugin-name">gsap-skills</div><div class="plugin-badge">Animation</div><p class="plugin-desc">GSAP animatiepatronen &mdash; timelines, ScrollTrigger en SplitText voor premium interacties.</p><div class="plugin-sub"><span class="plugin-sub-tag">/gsap</span></div></div></div>
@@ -566,6 +613,55 @@ body {
           <div class="flow-step"><div class="step-num">5</div><div class="step-content"><div class="step-cmd">Pitch</div><div class="step-label">Demo klaar</div></div></div>
         </div>
       </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section tips-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-label"><span class="section-label-bar"></span>Tips &amp; trucs</div>
+      <h2>Haal meer uit je tools</h2>
+      <p class="section-desc">Praktische patronen die het verschil maken tussen generieke AI output en iets dat echt goed werkt.</p>
+    </div>
+    <div class="tips-grid">
+
+      <div class="tip-shell reveal s1"><div class="tip-card">
+        <div class="tip-label">impeccable</div>
+        <div class="tip-title">Welke sub-skill wanneer?</div>
+        <ul class="tip-list">
+          <li><span class="tl-cmd">:audit</span><span class="tl-desc">Start hier altijd — geeft een volledig overzicht van alle design issues</span></li>
+          <li><span class="tl-cmd">:typeset</span><span class="tl-desc">Tekst voelt zwaar of slecht leesbaar — schaal, gewicht, witruimte</span></li>
+          <li><span class="tl-cmd">:colorize</span><span class="tl-desc">Contrast klopt niet of kleurpalet is inconsistent</span></li>
+          <li><span class="tl-cmd">:layout</span><span class="tl-desc">Pagina voelt rommelig — grid, spacing, compositie</span></li>
+          <li><span class="tl-cmd">:animate</span><span class="tl-desc">Alles staat stil — voeg micro-interacties en transitions toe</span></li>
+          <li><span class="tl-cmd">:polish</span><span class="tl-desc">Finale pass vlak voor de demo — kleine details afmaken</span></li>
+        </ul>
+        <div class="tip-callout"><strong>Tip:</strong> Run <code>/impeccable:audit</code> eerst, dan gericht de sub-skills op de gevonden issues.</div>
+      </div></div>
+
+      <div class="tip-shell reveal s2"><div class="tip-card">
+        <div class="tip-label">Context geeft betere output</div>
+        <div class="tip-title">Geef altijd domeincontext mee</div>
+        <ul class="tip-list">
+          <li><span class="tl-cmd">Slecht</span><span class="tl-desc">"Maak een formulier voor vergunningaanvragen"</span></li>
+          <li><span class="tl-cmd">Beter</span><span class="tl-desc">"Ik bouw een intern tool voor Roxit om vergunningaanvragen te beheren. De gebruiker is een ambtenaar die dagelijks 20-40 aanvragen verwerkt. Maak een formulier voor..."</span></li>
+        </ul>
+        <div class="tip-callout"><strong>Tip:</strong> Beschrijf de gebruiker, het doel en het domein. Claude past toon, veldnamen en validatielogica automatisch aan.</div>
+      </div></div>
+
+      <div class="tip-shell reveal s3"><div class="tip-card">
+        <div class="tip-label">Agents combineren</div>
+        <div class="tip-title">Één probleem, meerdere experts</div>
+        <ul class="tip-list">
+          <li><span class="tl-cmd">@convex-expert</span><span class="tl-desc">Schema en indexen ontwerpen</span></li>
+          <li><span class="tl-cmd">@backend-engineer</span><span class="tl-desc">Query en mutatie functies schrijven</span></li>
+          <li><span class="tl-cmd">@form-validation-architect</span><span class="tl-desc">Formulier + Zod validatie koppelen</span></li>
+          <li><span class="tl-cmd">@react-component-architect</span><span class="tl-desc">Component structuur reviewen</span></li>
+        </ul>
+        <div class="tip-callout"><strong>Tip:</strong> Agents hebben geen geheugen van elkaar — geef elke agent de relevante context opnieuw mee.</div>
+      </div></div>
+
     </div>
   </div>
 </section>
