@@ -11,6 +11,10 @@ Everything pre-installed in this workshop sandbox. Type any `/command` inside Cl
 | `@product-owner` | Write PRDs, break features into tickets, define user stories, prioritize scope |
 | `@backend-engineer` | Convex schema, queries, mutations, Server Actions, API routes, auth, Zod validation |
 | `@frontend-engineer` | React components, Tailwind, animations, responsive layout, accessibility |
+| `@convex-expert` | Deep Convex expertise — schema design, real-time queries, indexes, auth patterns |
+| `@saas-stack-architect` | App architecture, auth (Clerk), payments, onboarding flows, tech stack decisions |
+| `@react-component-architect` | Component API design, prop drilling, composition patterns, reusability review |
+| `@form-validation-architect` | React Hook Form, Zod schemas, multi-step forms, server-side validation |
 
 **Example:** `@backend-engineer help me design the schema for a permit tracker`
 
