@@ -26,5 +26,36 @@
       "Read(/etc/shadow)",
       "Bash(:(){ :|:& };:)"
     ]
+  },
+  "plugins": {
+    "superpowers@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "impeccable@impeccable": true,
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "gsap-skills@gsap-skills": true,
+    "branding-pitch@likeahuman-plugins": true,
+    "font-hunt@likeahuman-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "gsap-skills": {
+      "source": {
+        "source": "github",
+        "repo": "greensock/gsap-skills"
+      }
+    },
+    "impeccable": {
+      "source": {
+        "source": "github",
+        "repo": "pbakaus/impeccable"
+      }
+    },
+    "likeahuman-plugins": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/likeahuman-ai/claude-plugins.git"
+      }
+    }
   }
 }

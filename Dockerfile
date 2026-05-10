@@ -32,6 +32,12 @@ COPY --chown=dev:dev starter/ /workspace-starter/
 COPY --chown=dev:dev entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
+# Bake plugin cache so the image works offline (no download on first launch).
+# prepare-plugins.sh generates this snapshot from the host's plugin cache.
+# Run `bash prepare-plugins.sh` before `docker build` to refresh plugin versions.
+COPY --chown=dev:dev plugins-snapshot/cache/ /home/dev/.claude/plugins/cache/
+COPY --chown=dev:dev plugins-snapshot/installed_plugins.json /home/dev/.claude/plugins/installed_plugins.json
+
 # User-level Claude settings apply when participants cd into sub-projects
 # (project-level settings only kick in inside /workspace).
 RUN cp /workspace-starter/.claude/settings.json /home/dev/.claude/settings.json \

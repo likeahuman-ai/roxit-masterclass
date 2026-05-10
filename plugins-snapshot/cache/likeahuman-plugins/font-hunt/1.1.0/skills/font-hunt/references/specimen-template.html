@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Font Hunt — {{brief}}</title>
+  {{font_links}}
+  <style>{{inline_styles}}</style>
+</head>
+<body>
+  <header class="fh-header">
+    <div class="fh-header-brief">
+      <span class="fh-label">Font Hunt</span>
+      <span class="fh-brief">{{brief}}</span>
+    </div>
+    <div class="fh-header-meta">
+      <span>{{date}}</span>
+      <span>·</span>
+      <span>{{agents_ran}}</span>
+    </div>
+    <div class="fh-keys">
+      <kbd>J</kbd> / <kbd>K</kbd> navigate · <kbd>C</kbd> copy CSS
+    </div>
+  </header>
+
+  <main>
+    {{sections}}
+  </main>
+
+  <footer class="fh-footer">
+    <div class="fh-footer-col">
+      <span class="fh-label">Anti-slop applied</span>
+      <p>{{blocklist_summary}}</p>
+    </div>
+    <div class="fh-footer-col">
+      <span class="fh-label">Sources rotated</span>
+      <p>{{sources_rotated}}</p>
+    </div>
+    <div class="fh-footer-col">
+      <span class="fh-label">Regenerate</span>
+      <p>Run <code>/font-hunt "{{brief}}"</code> again — rotation will serve new fonts.</p>
+    </div>
+  </footer>
+
+  <script>{{inline_script}}</script>
+</body>
+</html>
+
+<!--
+Section sub-template (replicated per candidate by build-preview.mjs):
+
+<section class="fh-section" data-font="{{font_family}}" id="fh-{{slug}}">
+  <div class="fh-specimen">
+    <div class="fh-hero" style="font-family: '{{font_family}}', serif;">{{font_name}}</div>
+    <div class="fh-display" style="font-family: '{{font_family}}', serif;">{{display_copy}}</div>
+    <div class="fh-heading" style="font-family: '{{font_family}}', serif;">{{heading_copy}}</div>
+    <div class="fh-body" style="font-family: '{{font_family}}', serif;">{{body_copy}}</div>
+    <div class="fh-glyphs" style="font-family: '{{font_family}}', serif;">
+      abcdefghijklmnopqrstuvwxyz<br>
+      ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+      0123456789 ij IJ é è ê ë ñ ß ü ç ø æ œ &ldquo;&rdquo; &lsquo;&rsquo; &amp; @
+    </div>
+  </div>
+  <aside class="fh-meta">
+    <div class="fh-meta-row"><span class="fh-label">Foundry</span><span>{{foundry}}</span></div>
+    <div class="fh-meta-row"><span class="fh-label">License</span><span>{{license}}</span></div>
+    <div class="fh-meta-row"><span class="fh-label">Tier</span><span>{{tier}}</span></div>
+    <div class="fh-meta-row"><span class="fh-label">Character</span><span>{{character}}</span></div>
+    <div class="fh-meta-row"><span class="fh-label">Source</span><a href="{{url}}" target="_blank" rel="noopener">{{url_display}}</a></div>
+    <p class="fh-why">{{why}}</p>
+    {{risks_block}}
+    <button class="fh-copy" data-css="{{css_escaped}}">Copy @font-face</button>
+  </aside>
+</section>
+-->

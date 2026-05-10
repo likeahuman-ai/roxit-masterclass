@@ -1,0 +1,14 @@
+{
+  "name": "font-hunt",
+  "version": "1.1.1",
+  "description": "Research unique fonts from real indie foundries",
+  "author": {
+    "name": "LikeAHuman.ai",
+    "email": "academy@likeahuman.ai",
+    "url": "https://likeahuman.ai"
+  },
+  "homepage": "https://github.com/likeahuman-ai/font-hunt",
+  "repository": "https://github.com/likeahuman-ai/font-hunt",
+  "license": "MIT",
+  "skills": "./skills/"
+}

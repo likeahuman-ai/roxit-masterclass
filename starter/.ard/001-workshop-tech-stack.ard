@@ -1,0 +1,119 @@
+# ADR-001 — Workshop Tech Stack
+
+**Date:** 2026-05-18  
+**Status:** Accepted  
+**Context:** Roxit AI Experience Week — 3-day workshop for ~60 Visma developers
+
+---
+
+## Decision
+
+All workshop projects use **Next.js 15 (App Router) + Convex** as the standard stack.
+
+No other backend or database options are supported during the workshop.
+
+---
+
+## Stack
+
+| Layer | Technology | Version |
+|---|---|---|
+| Framework | Next.js App Router | 15.x |
+| Language | TypeScript | 5.x strict |
+| Styling | Tailwind CSS | 4.x |
+| Backend / Database | Convex | latest |
+| Package manager | pnpm | latest |
+| Node runtime | Node.js | 22.x (LTS) |
+| Deployment | Vercel (optional) | — |
+
+---
+
+## Why Next.js
+
+- Participants already know React; App Router is the current standard
+- Server Components + Server Actions let you write backend logic without a separate API layer
+- `npx create-next-app` gives you a working project in 30 seconds
+- Instant preview in the Docker container on `localhost:3000`
+
+## Why Convex
+
+- **Zero infrastructure** — no Postgres to provision, no migrations to run, no connection strings to manage
+- **Real-time by default** — `useQuery` auto-updates the UI when data changes
+- **Schema-first** — define your data model in `convex/schema.ts`, get full TypeScript types everywhere
+- **Functions as backend** — `query()`, `mutation()`, `action()` replace API routes for most use cases
+- **Free tier** covers all workshop usage comfortably
+
+## Why not Prisma / Drizzle / SQLite
+
+Relational databases require migration tooling, connection management, and mental overhead that slows participants down in a 3-day format. Convex eliminates the entire setup phase.
+
+## Why not tRPC / Hono / Express
+
+Additional layers between frontend and backend add complexity without benefit when Convex functions are already type-safe end-to-end.
+
+---
+
+## Project quickstart
+
+```bash
+# 1. Create Next.js project
+npx create-next-app@latest my-tool --typescript --tailwind --app --no-git
+cd my-tool
+
+# 2. Add Convex
+pnpm add convex
+npx convex dev   # follow login prompt, creates convex/ directory
+
+# 3. Start dev server (separate terminal)
+pnpm dev
+```
+
+Browser: `http://localhost:3000`  
+Convex dashboard: `https://dashboard.convex.dev`
+
+---
+
+## File structure convention
+
+```
+my-tool/
+  app/                    Next.js App Router pages
+    page.tsx              Home page (Server Component by default)
+    layout.tsx
+  components/             React components
+  convex/                 Convex backend
+    schema.ts             Data model (define this first)
+    items.ts              query/mutation functions
+    _generated/           Auto-generated types (don't touch)
+  lib/                    Shared utilities
+  .env.local              CONVEX_DEPLOYMENT (auto-set by npx convex dev)
+```
+
+---
+
+## Auth
+
+For workshop projects that need authentication: **Clerk** (free tier, works with Convex out of the box).
+
+For demos that don't need real auth: use a simple hardcoded userId or skip auth entirely.
+
+---
+
+## Constraints
+
+- All code runs inside the Docker sandbox at `/workspace`
+- Dev server is accessible on the host at `localhost:3000`, `localhost:3001`, or `localhost:8080`
+- Convex requires outbound internet for the cloud backend — available on workshop WiFi
+- Node.js 22 is pre-installed; no other runtimes available
+- `pnpm`, `npx`, `tsx`, `typescript`, `create-next-app` are pre-installed globally
+
+---
+
+## Agents and skills that enforce this stack
+
+| Agent / Skill | Enforces |
+|---|---|
+| `@backend-engineer` | Convex schema, queries, mutations, auth patterns |
+| `@frontend-engineer` | Next.js App Router, server vs client components, Tailwind |
+| `coding-standards` | TypeScript strict, no `any`, naming conventions |
+| `vercel-react-best-practices` | Next.js performance patterns |
