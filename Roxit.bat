@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 title Roxit Masterclass
 
 set IMAGE=roxit-masterclass:0.3
-set RELEASE_URL=https://github.com/likeahuman-ai/roxit-masterclass/releases/download/v0.3
+set RELEASE_URL=https://github.com/likeahuman-ai/roxit-releases/releases/download/v0.3
 set WORKDIR_HOST=%USERPROFILE%\roxit-workshop
 set CLAUDE_VOLUME=roxit-claude-data
 set ARCH=amd64

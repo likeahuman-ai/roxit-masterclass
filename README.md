@@ -60,9 +60,9 @@ After install, **open Docker Desktop once** and wait until it says "Engine runni
 
 ### Step 2 — Download the workshop zip
 
-Grab the latest release: **[github.com/likeahuman-ai/roxit-masterclass/releases/latest](https://github.com/likeahuman-ai/roxit-masterclass/releases/latest)**
+Grab the latest release: **[github.com/likeahuman-ai/roxit-releases/releases/latest](https://github.com/likeahuman-ai/roxit-releases/releases/latest)**
 
-Download `roxit-masterclass.zip`, then **unzip it** to a folder you'll remember (e.g. `~/Desktop/roxit-masterclass` or `Documents\roxit-masterclass`).
+Download `roxit-masterclass.zip` (~5 KB — just the launchers; the 420 MB image is fetched on first run), then **unzip it** to a folder you'll remember (e.g. `~/Desktop/roxit-masterclass` or `Documents\roxit-masterclass`).
 
 ### Step 3 — Double-click the launcher
 
@@ -212,18 +212,37 @@ Telemetry is **on by default** (console exporter) so participants can see their 
 
 ## 🛠 Build (maintainers only)
 
+This source repo is **private**. Participant launchers download release assets unauthenticated, so tarballs + the participant zip ship from the **public mirror**: [`likeahuman-ai/roxit-releases`](https://github.com/likeahuman-ai/roxit-releases).
+
 ```bash
-# Multi-arch build + push to GHCR
+# 1. Multi-arch build + push to GHCR
 docker buildx build --platform linux/amd64,linux/arm64 \
   -t ghcr.io/likeahuman-ai/roxit-masterclass:0.3 --push .
 
-# Local arm64 only (for testing on Apple Silicon)
+# 2. Local arm64 only (for testing on Apple Silicon)
 docker buildx build --platform linux/arm64 -t roxit-masterclass:0.3 --load .
 
-# Save as tar for GitHub Release
+# 3. Save as gzipped tarballs
 docker save roxit-masterclass:0.3-amd64 | gzip > roxit-masterclass-amd64.tar.gz
 docker save roxit-masterclass:0.3-arm64 | gzip > roxit-masterclass-arm64.tar.gz
+
+# 4. Build participant zip (just the launchers)
+mkdir -p /tmp/roxit-masterclass
+cp Roxit.command Roxit.bat Roxit.sh /tmp/roxit-masterclass/
+chmod +x /tmp/roxit-masterclass/Roxit.{command,sh}
+( cd /tmp && zip -r roxit-masterclass.zip roxit-masterclass/ )
+
+# 5. Publish to the public mirror (creates v0.3 if it doesn't exist)
+gh release create v0.3 \
+  --repo likeahuman-ai/roxit-releases \
+  --title "v0.3 — Roxit Masterclass Sandbox" \
+  --notes-file release-notes.md \
+  roxit-masterclass-amd64.tar.gz \
+  roxit-masterclass-arm64.tar.gz \
+  /tmp/roxit-masterclass.zip
 ```
+
+To update an existing release, replace `gh release create` with `gh release upload v0.3 --clobber <files...>`.
 
 Plugin cache snapshot (run before `docker build` to refresh):
 

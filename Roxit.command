@@ -3,7 +3,7 @@
 
 set -e
 IMAGE="${ROXIT_IMAGE:-roxit-masterclass:0.3}"
-RELEASE_URL="${ROXIT_RELEASE_URL:-https://github.com/likeahuman-ai/roxit-masterclass/releases/download/v0.3}"
+RELEASE_URL="${ROXIT_RELEASE_URL:-https://github.com/likeahuman-ai/roxit-releases/releases/download/v0.3}"
 WORKDIR_HOST="$HOME/roxit-workshop"
 CLAUDE_VOLUME="roxit-claude-data"
 
