@@ -37,7 +37,7 @@ No Node install. No git setup. No config. Works on macOS, Windows, and Linux.
 </p>
 
 <p align="center">
-  <sub>Prefer video? <a href="walkthrough/roxit-walkthrough.mp4">Download the MP4</a> · source under <a href="walkthrough/"><code>walkthrough/</code></a> · built with <a href="https://www.remotion.dev/">Remotion</a></sub>
+  <sub>Prefer video? <a href="walkthrough/roxit-walkthrough.mp4">Download the MP4</a></sub>
 </p>
 
 ---
