@@ -47,7 +47,13 @@ RUN cp /workspace-starter/.claude/settings.json /home/dev/.claude/settings.json 
 # Console exporter by default; IT redirects to their OTLP collector by mounting
 # /etc/claude-code/managed-settings.json (template in starter/.claude/).
 # Auto-update OFF so the whole room runs the same pinned version end-to-end.
-ENV CLAUDE_CODE_ENABLE_TELEMETRY=1 \
+# Docker Model Runner — Anthropic-compatible local LLM API on the host.
+# Participants can use: claude --model qwen3-coder "..." to avoid API credits.
+# Requires Docker Desktop with Model Runner enabled + at least one model pulled:
+#   docker model pull ai/qwen3-coder
+# On Linux: add --add-host=host.docker.internal:host-gateway to docker run.
+ENV ANTHROPIC_BASE_URL=http://host.docker.internal:12434/anthropic \
+    CLAUDE_CODE_ENABLE_TELEMETRY=1 \
     OTEL_METRICS_EXPORTER=console \
     OTEL_LOGS_EXPORTER=console \
     OTEL_METRIC_EXPORT_INTERVAL=60000 \

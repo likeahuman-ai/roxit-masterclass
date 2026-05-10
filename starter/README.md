@@ -10,13 +10,21 @@ Volg de login-instructies (eenmalig). Daarna ben je klaar om te bouwen.
 
 ## Lokaal model gebruiken (gratis)
 
-Wil je geen API credits verbruiken? Draai een lokaal model via Claude Code:
+Wil je geen API credits verbruiken? Gebruik **Docker Model Runner** — ingebouwd in Docker Desktop.
 
+**Eénmalig op je laptop:**
 ```bash
-claude --model gpt-oss:32k "Analyze this codebase"
+docker model pull ai/qwen3-coder
 ```
 
-Dit stuurt je prompt naar een lokaal draaiend LLM in plaats van de Anthropic API. Handig voor verkenning, grote codebase analyses of als je credits wilt sparen voor de echte bouwsessies.
+**Dan in de container:**
+```bash
+claude --model qwen3-coder "Analyze this codebase"
+```
+
+De container is al geconfigureerd om Docker Model Runner op je laptop te bereiken via `host.docker.internal:12434`. Handig voor verkenning en grote codebase analyses — bewaar je Anthropic credits voor de echte bouwsessies.
+
+> **Linux gebruikers:** voeg `--add-host=host.docker.internal:host-gateway` toe aan je `docker run` commando.
 
 ## Wat staat er klaar?
 
