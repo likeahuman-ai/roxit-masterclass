@@ -4,6 +4,8 @@
 
 The rendered MP4 lives at `roxit-walkthrough.mp4` and is embedded at the top of the main repo README.
 
+> **Want a proper inline player on GitHub?** GitHub only auto-embeds MP4s uploaded through the web UI. To upgrade: open any GitHub issue → drag `roxit-walkthrough.mp4` into the comment box → wait for the upload → copy the resulting `https://github.com/user-attachments/assets/...` URL → replace the `raw/main/...` URL in the main README's video embed. The repo-tracked MP4 stays as a download fallback.
+
 ## Re-render
 
 ```bash
