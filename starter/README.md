@@ -1,42 +1,25 @@
-# Welkom bij de Roxit AI Experience Week
+# Claude Code Workshop
 
-Dit is jouw sandbox. Alles wat je hier maakt staat op jouw laptop onder `~/roxit-workshop` en blijft bewaard tussen sessies.
-
-## Eerste keer?
+## Starten
 
 ```bash
 claude
 ```
 
-Volg de login-instructies (eenmalig). Daarna ben je klaar.
-
-## Programma
-
-| Dag | Wat |
-|-----|-----|
-| Ma middag | Installatie + `exercises/01-first-steps.md` |
-| Di | `exercises/02-permits-tracker.md` + vrij bouwen |
-| Wo | `exercises/03-hackathon-brief.md` — teamproject + pitch |
+Volg de login-instructies (eenmalig). Daarna ben je klaar om te bouwen.
 
 ## Wat staat er klaar?
 
 ```
-exercises/          Stap-voor-stap oefeningen
-data/               Gesimuleerde testdata om mee te bouwen
-.claude/agents/     Workshop guide
-.claude/skills/     Hoe je zelf skills maakt
-CLAUDE.md           Workshop context voor Claude
+.claude/agents/     @product-owner, @backend-engineer, @frontend-engineer
+.claude/skills/     /office-hours, /investigate, /review, /qa en meer
+CLAUDE.md           Workshop context + Roxit design system
+index.html          Overzicht van alle agents, skills en plugins
 ```
 
-## Handige commando's
+## Nieuw project aanmaken
 
 ```bash
-claude                          # start Claude Code
-claude "vraag of opdracht"      # direct een taak meegeven
-@workshop-guide                 # vastgelopen? hier beginnen
+npx create-next-app@latest mijn-app --typescript --tailwind --app --no-git
+cd mijn-app && pnpm add convex && npx convex dev
 ```
-
-## Data
-
-Alle testdata in `/workspace/data/` is gesimuleerd — geen echte Roxit of gemeente-data.
-Gebruik dit vrijelijk voor je oefeningen en hackathon project.
