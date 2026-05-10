@@ -64,5 +64,4 @@ Alles wat je maakt in `/workspace` verschijnt op je laptop in `~/roxit-workshop/
 
 ## Hulp nodig?
 
-- Tijdens de workshop — vraag de begeleider
-- Na de workshop — WhatsApp de coordinator
+Vraag de begeleider tijdens de workshop.

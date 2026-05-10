@@ -114,7 +114,7 @@ On older Macs, the first start of Docker can take 60+ seconds.
 
 The download from GitHub Releases failed. Check your internet connection. If you're on the Visma corporate network, GitHub access may be restricted — try a personal hotspot.
 
-If it still fails, ping us on WhatsApp and we'll send the tar file directly.
+If it still fails, ask the workshop facilitator for the tar file directly.
 </details>
 
 <details>
@@ -224,6 +224,5 @@ This syncs the host's `~/.claude/plugins/cache/` into `plugins-snapshot/` for th
 ---
 
 <p align="center">
-  Built by <a href="https://likeahuman.ai">Like a Human</a> · Amsterdam<br>
-  <sub>Need help? WhatsApp the workshop coordinator.</sub>
+  Built by <a href="https://likeahuman.ai">Like a Human</a> · Amsterdam
 </p>
