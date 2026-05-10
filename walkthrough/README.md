@@ -2,9 +2,12 @@
 
 30-second animated walkthrough of the Roxit Masterclass setup flow, built with [Remotion](https://www.remotion.dev/).
 
-The rendered MP4 lives at `roxit-walkthrough.mp4` and is embedded at the top of the main repo README.
+Two artifacts ship from this folder:
 
-> **Want a proper inline player on GitHub?** GitHub only auto-embeds MP4s uploaded through the web UI. To upgrade: open any GitHub issue → drag `roxit-walkthrough.mp4` into the comment box → wait for the upload → copy the resulting `https://github.com/user-attachments/assets/...` URL → replace the `raw/main/...` URL in the main README's video embed. The repo-tracked MP4 stays as a download fallback.
+- `roxit-walkthrough.gif` — embedded inline in the main README (GitHub renders GIFs everywhere, no host restrictions)
+- `roxit-walkthrough.mp4` — higher-quality download, linked below the GIF
+
+> **Why GIF for the inline embed?** GitHub's HTML sanitizer strips `<video src="...">` tags unless the source is a `user-attachments` URL (uploaded via the web UI drag-drop, not committed to the repo). Markdown image syntax with a tracked GIF works in every renderer — github.com, mobile, npm-on-the-web, RSS — without an upload step.
 
 ## Re-render
 
@@ -14,11 +17,17 @@ pnpm install
 pnpm build         # → out/roxit-walkthrough.mp4
 ```
 
-After rendering, copy the result up one level so the README link still resolves:
+Copy the MP4 up one level and regenerate the GIF (GIF is what's embedded in the README):
 
 ```bash
 cp out/roxit-walkthrough.mp4 ./roxit-walkthrough.mp4
+
+ffmpeg -y -i roxit-walkthrough.mp4 \
+  -vf "fps=15,scale=960:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];[s1][p]paletteuse=dither=bayer:bayer_scale=5" \
+  -loop 0 roxit-walkthrough.gif
 ```
+
+The flags: 15 fps + 960px wide + 128-color palette with bayer dithering keep the file under 2 MB while staying readable.
 
 ## Edit interactively
 
