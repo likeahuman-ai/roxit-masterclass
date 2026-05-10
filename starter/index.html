@@ -162,6 +162,7 @@ body {
    AGENT CARDS — double-bezel, white inner
    ===================================================== */
 .agents-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; min-width:0; }
+@media(max-width:900px){ .agents-grid { grid-template-columns:repeat(2,1fr); } }
 .agent-shell {
   background:var(--green-t);
   border:1px solid var(--green-t2);
@@ -177,6 +178,10 @@ body {
 .agent-card.po::before { background:linear-gradient(90deg,var(--green-l),var(--green)); }
 .agent-card.be::before { background:linear-gradient(90deg,var(--green),var(--green-d)); }
 .agent-card.fe::before { background:linear-gradient(90deg,var(--green-m),var(--green-l)); }
+.agent-card.cx::before { background:linear-gradient(90deg,var(--green-d),var(--green-m)); }
+.agent-card.sa::before { background:linear-gradient(90deg,var(--green-l),var(--green-m)); }
+.agent-card.rc::before { background:linear-gradient(90deg,var(--green-m),var(--green)); }
+.agent-card.fv::before { background:linear-gradient(90deg,var(--green),var(--green-l)); }
 .agent-handle {
   font-family:'Courier New',monospace; font-size:11px; font-weight:700;
   text-transform:uppercase; letter-spacing:1.8px; margin-bottom:12px;
@@ -408,6 +413,34 @@ body {
         <p>React componenten, Tailwind, animaties, responsive layout en accessibility. Werkt met Next.js App Router.</p>
         <div class="agent-tags"><span class="agent-tag">React</span><span class="agent-tag">Tailwind</span><span class="agent-tag">A11y</span></div>
         <span class="invoke-hint">@frontend-engineer build a card component</span>
+      </div></div>
+      <div class="agent-shell reveal s1"><div class="agent-card cx">
+        <div class="agent-handle">@convex-expert</div>
+        <h3>Convex Expert</h3>
+        <p>Diepgaande Convex kennis — schema design, real-time queries, indexes, auth patterns en performance.</p>
+        <div class="agent-tags"><span class="agent-tag">Convex</span><span class="agent-tag">Real-time</span><span class="agent-tag">Indexes</span></div>
+        <span class="invoke-hint">@convex-expert how do I paginate this query</span>
+      </div></div>
+      <div class="agent-shell reveal s2"><div class="agent-card sa">
+        <div class="agent-handle">@saas-stack-architect</div>
+        <h3>SaaS Architect</h3>
+        <p>App architectuur, auth (Clerk), tech stack beslissingen en onboarding flows voor moderne web apps.</p>
+        <div class="agent-tags"><span class="agent-tag">Auth</span><span class="agent-tag">Stack</span><span class="agent-tag">Architectuur</span></div>
+        <span class="invoke-hint">@saas-stack-architect best auth setup for this app</span>
+      </div></div>
+      <div class="agent-shell reveal s3"><div class="agent-card rc">
+        <div class="agent-handle">@react-component-architect</div>
+        <h3>Component Architect</h3>
+        <p>Component API design, prop drilling voorkomen, compositie patronen en reusability reviews.</p>
+        <div class="agent-tags"><span class="agent-tag">Components</span><span class="agent-tag">Props</span><span class="agent-tag">Compositie</span></div>
+        <span class="invoke-hint">@react-component-architect review this component</span>
+      </div></div>
+      <div class="agent-shell reveal s1"><div class="agent-card fv">
+        <div class="agent-handle">@form-validation-architect</div>
+        <h3>Form Architect</h3>
+        <p>React Hook Form, Zod schema&apos;s, multi-step formulieren en server-side validatie patronen.</p>
+        <div class="agent-tags"><span class="agent-tag">Forms</span><span class="agent-tag">Zod</span><span class="agent-tag">Validatie</span></div>
+        <span class="invoke-hint">@form-validation-architect build a multi-step form</span>
       </div></div>
     </div>
   </div>
