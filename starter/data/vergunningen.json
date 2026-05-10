@@ -1,0 +1,131 @@
+[
+  {
+    "id": "vg-001",
+    "zaaknummer": "Z/2024/001234",
+    "type": "omgevingsvergunning",
+    "omschrijving": "Uitbouw aan de achterzijde van de woning",
+    "status": "in_behandeling",
+    "aanvrager": {
+      "naam": "J. de Vries",
+      "adres": "Kerkstraat 12, 8301 AB Emmeloord",
+      "email": "j.devries@email.nl"
+    },
+    "locatie": {
+      "adres": "Kerkstraat 12",
+      "postcode": "8301 AB",
+      "gemeente": "Noordoostpolder"
+    },
+    "behandelaar": "M. Janssen",
+    "ingediend_op": "2024-03-15",
+    "verwacht_besluit": "2024-05-15",
+    "documenten": ["aanvraagformulier.pdf", "bouwtekening-v1.pdf", "situatietekening.pdf"]
+  },
+  {
+    "id": "vg-002",
+    "zaaknummer": "Z/2024/001891",
+    "type": "kapvergunning",
+    "omschrijving": "Kappen van 2 eikenbomen wegens ziektedruk",
+    "status": "besloten_verleend",
+    "aanvrager": {
+      "naam": "Gemeente Urk",
+      "adres": "Singel 9, 8321 EA Urk",
+      "email": "info@gemeenteurk.nl"
+    },
+    "locatie": {
+      "adres": "Raadhuisplein 3",
+      "postcode": "8321 EA",
+      "gemeente": "Urk"
+    },
+    "behandelaar": "P. Bakker",
+    "ingediend_op": "2024-02-01",
+    "besluit_op": "2024-03-20",
+    "documenten": ["aanvraag.pdf", "bomenonderzoek.pdf", "besluit-verleend.pdf"]
+  },
+  {
+    "id": "vg-003",
+    "zaaknummer": "Z/2024/002450",
+    "type": "reclamevergunning",
+    "omschrijving": "Plaatsen van verlicht reclamebord aan gevel",
+    "status": "aanvulling_gevraagd",
+    "aanvrager": {
+      "naam": "Bakkerij De Korenschoof BV",
+      "adres": "Hoofdstraat 44, 8331 JS Steenwijk",
+      "email": "info@korenschoof.nl"
+    },
+    "locatie": {
+      "adres": "Hoofdstraat 44",
+      "postcode": "8331 JS",
+      "gemeente": "Steenwijkerland"
+    },
+    "behandelaar": "S. Hoekstra",
+    "ingediend_op": "2024-04-10",
+    "aanvulling_gevraagd_op": "2024-04-28",
+    "aanvulling_deadline": "2024-05-28",
+    "documenten": ["aanvraag.pdf", "maatschets.pdf"]
+  },
+  {
+    "id": "vg-004",
+    "zaaknummer": "Z/2024/003012",
+    "type": "evenementenvergunning",
+    "omschrijving": "Jaarlijks zomerfestival op het Marktplein",
+    "status": "ingediend",
+    "aanvrager": {
+      "naam": "Stichting Emmeloord Zomerfest",
+      "adres": "Postbus 55, 8300 AB Emmeloord",
+      "email": "info@emmeloordzomerfest.nl"
+    },
+    "locatie": {
+      "adres": "Marktplein",
+      "postcode": "8302 AA",
+      "gemeente": "Noordoostpolder"
+    },
+    "behandelaar": null,
+    "ingediend_op": "2024-04-22",
+    "verwacht_besluit": "2024-06-01",
+    "documenten": ["aanvraag.pdf", "veiligheidsplan.pdf", "plattegrond.pdf", "geluidsmeting.pdf"]
+  },
+  {
+    "id": "vg-005",
+    "zaaknummer": "Z/2023/009871",
+    "type": "sloopvergunning",
+    "omschrijving": "Sloop voormalige agrarische schuur",
+    "status": "bezwaar",
+    "aanvrager": {
+      "naam": "Agri Vastgoed Flevoland BV",
+      "adres": "Industrieweg 7, 8304 AS Emmeloord",
+      "email": "contact@agrivastgoed.nl"
+    },
+    "locatie": {
+      "adres": "Espelerweg 23",
+      "postcode": "8316 PX",
+      "gemeente": "Noordoostpolder"
+    },
+    "behandelaar": "M. Janssen",
+    "ingediend_op": "2023-11-05",
+    "besluit_op": "2024-01-15",
+    "bezwaar_ingediend_op": "2024-02-03",
+    "documenten": ["aanvraag.pdf", "asbestinventarisatie.pdf", "besluit-verleend.pdf", "bezwaarschrift.pdf"]
+  },
+  {
+    "id": "vg-006",
+    "zaaknummer": "Z/2024/004210",
+    "type": "inritvergunning",
+    "omschrijving": "Aanleg nieuwe inrit voor bedrijfspand",
+    "status": "besloten_geweigerd",
+    "aanvrager": {
+      "naam": "Transportbedrijf Visser",
+      "adres": "Haven 2, 8321 KL Urk",
+      "email": "visser@transport-visser.nl"
+    },
+    "locatie": {
+      "adres": "Havenweg 15",
+      "postcode": "8321 KL",
+      "gemeente": "Urk"
+    },
+    "behandelaar": "P. Bakker",
+    "ingediend_op": "2024-03-01",
+    "besluit_op": "2024-04-18",
+    "weigeringsgrond": "Inrit te dicht op kruispunt (< 20m), verkeersonveilige situatie",
+    "documenten": ["aanvraag.pdf", "situatietekening.pdf", "besluit-geweigerd.pdf"]
+  }
+]

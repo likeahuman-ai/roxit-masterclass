@@ -1,15 +1,43 @@
-# Welcome to your Roxit Masterclass workspace
+# Welkom bij de Roxit AI Experience Week
 
-This folder is yours. Anything you put here lives on your Mac at `~/roxit-workshop` and survives between sessions.
+Dit is jouw sandbox. Alles wat je hier maakt staat op jouw laptop onder `~/roxit-workshop` en blijft bewaard tussen sessies.
 
-## Try first
+## Eerste keer?
 
 ```bash
-claude "explain what's in this folder"
-claude "draft a one-page PRD for a permits-tracker for gemeenten"
-claude "I want to learn how Claude Code works — guide me"
+claude
 ```
 
-## Where am I?
+Volg de login-instructies (eenmalig). Daarna ben je klaar.
 
-You're inside a Docker sandbox. Nothing you do here can touch your laptop's files outside `~/roxit-workshop`. Network is allow-listed by Roxit IT.
+## Programma
+
+| Dag | Wat |
+|-----|-----|
+| Ma middag | Installatie + `exercises/01-first-steps.md` |
+| Di | `exercises/02-permits-tracker.md` + vrij bouwen |
+| Wo | `exercises/03-hackathon-brief.md` — teamproject + pitch |
+
+## Wat staat er klaar?
+
+```
+exercises/          Stap-voor-stap oefeningen
+data/               Gesimuleerde Roxit-data (vergunningen, aanbestedingen)
+.claude/agents/     Domain expert + workshop guide
+.claude/skills/     Hoe je zelf skills maakt
+CLAUDE.md           Workshop context + Roxit domeinkennis voor Claude
+```
+
+## Handige commando's
+
+```bash
+claude                          # start Claude Code
+claude "vraag of opdracht"      # direct een taak meegeven
+@roxit-domain-expert            # domeinvragen over vergunningen/gemeenten
+@workshop-guide                 # vastgelopen? hier beginnen
+```
+
+## Data
+
+Alle testdata in `/workspace/data/` is gesimuleerd — geen echte Roxit of gemeente-data.
+Gebruik dit vrijelijk voor je oefeningen en hackathon project.
