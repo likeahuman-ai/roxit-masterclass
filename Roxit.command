@@ -2,7 +2,6 @@
 # Roxit Masterclass launcher — double-click on macOS to start.
 
 set -e
-IMAGE="${ROXIT_IMAGE:-roxit-masterclass:0.3}"
 RELEASE_URL="${ROXIT_RELEASE_URL:-https://github.com/likeahuman-ai/roxit-releases/releases/download/v0.3}"
 WORKDIR_HOST="$HOME/roxit-workshop"
 CLAUDE_VOLUME="roxit-claude-data"
@@ -12,6 +11,9 @@ case "$(uname -m)" in
   arm64) ARCH=arm64 ;;
   *) ARCH=amd64 ;;
 esac
+
+# Image tag includes arch suffix because docker save preserves it
+IMAGE="${ROXIT_IMAGE:-roxit-masterclass:0.3-${ARCH}}"
 
 echo ""
 echo "  Roxit Masterclass · starting your sandbox..."

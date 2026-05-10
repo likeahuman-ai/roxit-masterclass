@@ -2,12 +2,14 @@
 setlocal enabledelayedexpansion
 title Roxit Masterclass
 
-set IMAGE=roxit-masterclass:0.3
 set RELEASE_URL=https://github.com/likeahuman-ai/roxit-releases/releases/download/v0.3
 set WORKDIR_HOST=%USERPROFILE%\roxit-workshop
 set CLAUDE_VOLUME=roxit-claude-data
 set ARCH=amd64
 if /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" set ARCH=arm64
+
+REM Image tag includes arch suffix because docker save preserves it
+set IMAGE=roxit-masterclass:0.3-%ARCH%
 
 echo.
 echo   Roxit Masterclass - starting your sandbox...

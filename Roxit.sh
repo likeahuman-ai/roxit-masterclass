@@ -2,7 +2,6 @@
 # Roxit Masterclass launcher — Linux. Run with: bash Roxit.sh
 set -e
 
-IMAGE="${ROXIT_IMAGE:-roxit-masterclass:0.3}"
 RELEASE_URL="${ROXIT_RELEASE_URL:-https://github.com/likeahuman-ai/roxit-releases/releases/download/v0.3}"
 WORKDIR_HOST="$HOME/roxit-workshop"
 CLAUDE_VOLUME="roxit-claude-data"
@@ -17,6 +16,9 @@ case "$(uname -m)" in
   aarch64|arm64) ARCH=arm64 ;;
   *) echo "  Onbekende architectuur: $(uname -m). Werkt alleen op x86_64/arm64."; exit 1 ;;
 esac
+
+# Image tag includes arch suffix because docker save preserves it
+IMAGE="${ROXIT_IMAGE:-roxit-masterclass:0.3-${ARCH}}"
 
 # 1. Docker present?
 if ! command -v docker >/dev/null 2>&1; then
