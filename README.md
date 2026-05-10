@@ -30,7 +30,128 @@ No Node install. No git setup. No config. Works on macOS, Windows, and Linux.
 
 ---
 
-### What's inside
+## 🚀 Quickstart for participants
+
+> **You need to do this once, before the workshop starts.** Allow ~15 minutes the first time (mostly waiting on downloads).
+
+### Step 1 — Install Docker Desktop
+
+Docker is the engine that runs the sandbox. It's free.
+
+- **macOS** → https://www.docker.com/products/docker-desktop/ → choose **Apple Silicon** (M1/M2/M3/M4) or **Intel chip**
+- **Windows** → https://www.docker.com/products/docker-desktop/ → choose **Windows**
+- **Linux** → install Docker Engine via your package manager
+
+After install, **open Docker Desktop once** and wait until it says "Engine running" (bottom-left, green dot). You can then close the window — Docker keeps running in the background.
+
+> Not sure which Mac chip you have? Click  → **About This Mac**. "Apple M…" = Apple Silicon.
+
+### Step 2 — Download the workshop zip
+
+Grab the latest release: **[github.com/likeahuman-ai/roxit-masterclass/releases/latest](https://github.com/likeahuman-ai/roxit-masterclass/releases/latest)**
+
+Download `roxit-masterclass.zip`, then **unzip it** to a folder you'll remember (e.g. `~/Desktop/roxit-masterclass` or `Documents\roxit-masterclass`).
+
+### Step 3 — Double-click the launcher
+
+Inside the unzipped folder you'll see three launchers. Use the one for your OS:
+
+| Your OS | Double-click |
+|---|---|
+| 🍎 macOS | `Roxit.command` |
+| 🪟 Windows | `Roxit.bat` |
+| 🐧 Linux | `Roxit.sh` |
+
+The first time, your OS will warn about an "unidentified developer" or SmartScreen. This is expected (we don't pay for code signing certificates).
+
+- **macOS** → Right-click `Roxit.command` → **Open** → confirm **Open** in the dialog
+- **Windows** → Click **More info** → **Run anyway**
+
+The launcher then:
+
+1. Checks Docker is installed and running (auto-starts it if needed)
+2. Downloads the sandbox image (~700 MB, **only the first time**)
+3. Opens a terminal inside the sandbox
+
+### Step 4 — Log in to Claude Code
+
+Once the terminal opens, type:
+
+```
+claude
+```
+
+A browser tab opens automatically. **Approve access** with your Anthropic account. The browser shows a code — **copy it and paste it back into the terminal**. Done.
+
+You should now see the Claude Code prompt. Try:
+
+```
+What's in this workspace?
+```
+
+You're ready for the workshop. ✨
+
+---
+
+## 🆘 Troubleshooting
+
+<details>
+<summary><b>"Docker Desktop is not installed"</b></summary>
+
+You skipped Step 1. The launcher will open the Docker download page for you. Install, **open Docker Desktop once** until "Engine running", then double-click Roxit again.
+</details>
+
+<details>
+<summary><b>"Docker Desktop did not start in time"</b></summary>
+
+Open Docker Desktop manually, wait until you see **Engine running** (bottom-left, green dot). Then double-click Roxit again.
+
+On older Macs, the first start of Docker can take 60+ seconds.
+</details>
+
+<details>
+<summary><b>"Kon de Roxit-image niet downloaden"</b></summary>
+
+The download from GitHub Releases failed. Check your internet connection. If you're on the Visma corporate network, GitHub access may be restricted — try a personal hotspot.
+
+If it still fails, ping us on WhatsApp and we'll send the tar file directly.
+</details>
+
+<details>
+<summary><b>"Port 3000 is already in use"</b></summary>
+
+Something else on your machine is using port 3000 (commonly: another Node.js app, Grafana, or a previous Roxit container).
+
+Quick fix: quit the other app, or stop other Roxit containers with:
+```bash
+docker ps             # list running containers
+docker stop <name>    # stop the one on port 3000
+```
+</details>
+
+<details>
+<summary><b>The browser tab never opens after typing <code>claude</code></b></summary>
+
+Some corporate machines block the auto-open. Look at the terminal output — it shows a URL like `https://claude.ai/oauth/...`. Copy that URL into a browser manually, approve, and paste the code back into the terminal.
+</details>
+
+<details>
+<summary><b>"Engine running" never appears in Docker Desktop</b></summary>
+
+On Windows, Docker Desktop requires **WSL 2**. If WSL isn't installed, Docker shows an error on first launch with a one-click installer link. Follow it, restart, and try again.
+
+On macOS, give Docker Desktop **Full Disk Access** in System Settings → Privacy & Security if it gets stuck.
+</details>
+
+<details>
+<summary><b>I'm on a corporate laptop and IT blocks Docker</b></summary>
+
+Talk to your IT contact and forward them the [For IT / security](#-for-it--security) section below. Docker Desktop is the only requirement, no admin install of Node/npm/git is needed.
+</details>
+
+---
+
+## 📦 What's inside the sandbox
 
 | | Tool | Why |
 |---|---|---|
@@ -42,21 +163,26 @@ No Node install. No git setup. No config. Works on macOS, Windows, and Linux.
 | 🔍 | **ripgrep + jq** | Fast search and JSON parsing |
 | 📝 | **tsx + TypeScript** | Run `.ts` files directly, no compile step |
 
----
-
-### Participant flow
-
-```
-1. Download zip  →  unzip  →  double-click Roxit
-2. First run: Docker pulls the image (~500 MB, one time)
-3. First run: claude → browser opens → approve → paste code back
-4. Work in /workspace  (= ~/roxit-workshop on your laptop)
-5. Files survive container restarts — work is never lost
-```
+Plus pre-installed Claude Code plugins from the LikeAHuman marketplace: `branding-pitch`, `font-hunt`, `superpowers`, `frontend-design`, `code-review`, `code-simplifier`, `skill-creator`, `gsap-skills`, `impeccable`.
 
 ---
 
-### For IT / security
+## 🗂 How files work
+
+```
+Your laptop                          Inside the sandbox
+─────────────                        ──────────────────
+~/roxit-workshop/         ←──→       /workspace/
+  └─ my-project/                       └─ my-project/
+```
+
+Anything you create in `/workspace` (inside the sandbox) appears in `~/roxit-workshop/` (on your laptop). Files survive container restarts — **your work is never lost**.
+
+You can open that folder in VS Code, Finder, or Explorer like any other folder.
+
+---
+
+## 🔐 For IT / security
 
 The sandbox runs as a **non-root user** (`dev`) inside Docker. Network access is unrestricted by default so participants can fetch docs, deploy previews, and use AI features. Restrictions can be layered on top via `managed-settings.json` without rebuilding the image.
 
@@ -72,7 +198,7 @@ Telemetry is **on by default** (console exporter) so participants can see their 
 
 ---
 
-### Build (maintainers)
+## 🛠 Build (maintainers only)
 
 ```bash
 # Multi-arch build + push to GHCR
@@ -87,17 +213,17 @@ docker save roxit-masterclass:0.3-amd64 | gzip > roxit-masterclass-amd64.tar.gz
 docker save roxit-masterclass:0.3-arm64 | gzip > roxit-masterclass-arm64.tar.gz
 ```
 
----
+Plugin cache snapshot (run before `docker build` to refresh):
 
-### OS security warnings
+```bash
+./prepare-plugins.sh
+```
 
-Both macOS and Windows will warn about unsigned launchers. This is expected.
-
-- **macOS** — Right-click `Roxit.command` → Open → Open
-- **Windows** — Click "More info" → "Run anyway"
+This syncs the host's `~/.claude/plugins/cache/` into `plugins-snapshot/` for the Docker build context. Adjust versions in the script when bumping plugins.
 
 ---
 
 <p align="center">
-  Built by <a href="https://likeahuman.ai">Like a Human</a> · Amsterdam
+  Built by <a href="https://likeahuman.ai">Like a Human</a> · Amsterdam<br>
+  <sub>Need help? WhatsApp the workshop coordinator.</sub>
 </p>
