@@ -43,8 +43,8 @@ sync_plugin "claude-plugins-official/code-simplifier/1.0.0"
 sync_plugin "claude-plugins-official/skill-creator/ef9da693e38f"
 sync_plugin "gsap-skills/gsap-skills/1.0.0"
 sync_plugin "impeccable/impeccable/2.1.1"
-sync_plugin "likeahuman-plugins/branding-pitch/1.1.0"
-sync_plugin "likeahuman-plugins/font-hunt/1.1.0"
+sync_plugin "likeahuman/branding-pitch/1.3.0"
+sync_plugin "likeahuman/font-hunt/1.1.1"
 
 # Generate installed_plugins.json with container-side paths
 python3 - "$DEST" "$CONTAINER_BASE" "$NOW" <<'PYEOF'
@@ -60,8 +60,8 @@ entries = [
   ("skill-creator@claude-plugins-official",  "claude-plugins-official/skill-creator/ef9da693e38f",  "ef9da693e38f", "13b3a7c5827a08227fb99b87958b427a11bf8413"),
   ("gsap-skills@gsap-skills",                "gsap-skills/gsap-skills/1.0.0",                       "1.0.0",        "03d9f0c3dbf91e0b60582b64ed040c8911ca0174"),
   ("impeccable@impeccable",                  "impeccable/impeccable/2.1.1",                         "2.1.1",        "00d485659af82982aef0328d0419c49a2716d123"),
-  ("branding-pitch@likeahuman-plugins",      "likeahuman-plugins/branding-pitch/1.1.0",             "1.1.0",        "d41644dea5819c4ac652fc1c825ca5930a680eea"),
-  ("font-hunt@likeahuman-plugins",           "likeahuman-plugins/font-hunt/1.1.0",                  "1.1.0",        ""),
+  ("branding-pitch@likeahuman",              "likeahuman/branding-pitch/1.3.0",                     "1.3.0",        ""),
+  ("font-hunt@likeahuman",                   "likeahuman/font-hunt/1.1.1",                          "1.1.1",        ""),
 ]
 
 plugins = {}

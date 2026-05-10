@@ -35,8 +35,8 @@
     "code-simplifier@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "gsap-skills@gsap-skills": true,
-    "branding-pitch@likeahuman-plugins": true,
-    "font-hunt@likeahuman-plugins": true
+    "branding-pitch@likeahuman": true,
+    "font-hunt@likeahuman": true
   },
   "extraKnownMarketplaces": {
     "gsap-skills": {
@@ -51,10 +51,10 @@
         "repo": "pbakaus/impeccable"
       }
     },
-    "likeahuman-plugins": {
+    "likeahuman": {
       "source": {
-        "source": "git",
-        "url": "https://github.com/likeahuman-ai/claude-plugins.git"
+        "source": "github",
+        "repo": "likeahuman-ai/likeahuman"
       }
     }
   }
