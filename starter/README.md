@@ -22,10 +22,10 @@ Volg de login-instructies (eenmalig). Daarna ben je klaar.
 
 ```
 exercises/          Stap-voor-stap oefeningen
-data/               Gesimuleerde Roxit-data (vergunningen, aanbestedingen)
-.claude/agents/     Domain expert + workshop guide
+data/               Gesimuleerde testdata om mee te bouwen
+.claude/agents/     Workshop guide
 .claude/skills/     Hoe je zelf skills maakt
-CLAUDE.md           Workshop context + Roxit domeinkennis voor Claude
+CLAUDE.md           Workshop context voor Claude
 ```
 
 ## Handige commando's
@@ -33,7 +33,6 @@ CLAUDE.md           Workshop context + Roxit domeinkennis voor Claude
 ```bash
 claude                          # start Claude Code
 claude "vraag of opdracht"      # direct een taak meegeven
-@roxit-domain-expert            # domeinvragen over vergunningen/gemeenten
 @workshop-guide                 # vastgelopen? hier beginnen
 ```
 
