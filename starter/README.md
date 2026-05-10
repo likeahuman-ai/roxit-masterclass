@@ -16,10 +16,3 @@ Volg de login-instructies (eenmalig). Daarna ben je klaar om te bouwen.
 CLAUDE.md           Workshop context + Roxit design system
 index.html          Overzicht van alle agents, skills en plugins
 ```
-
-## Nieuw project aanmaken
-
-```bash
-npx create-next-app@latest mijn-app --typescript --tailwind --app --no-git
-cd mijn-app && pnpm add convex && npx convex dev
-```
