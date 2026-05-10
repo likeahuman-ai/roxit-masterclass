@@ -1,4 +1,4 @@
 *.tar
 node_modules/
 .DS_Store
-plugins-snapshot/cache/**/.in_use/
+plugins-snapshot/
