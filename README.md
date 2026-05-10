@@ -30,6 +30,14 @@ No Node install. No git setup. No config. Works on macOS, Windows, and Linux.
 
 ---
 
+### 🎬 30-second setup walkthrough
+
+https://github.com/likeahuman-ai/roxit-masterclass/raw/main/walkthrough/roxit-walkthrough.mp4
+
+> If the player doesn't load above, [download the MP4](walkthrough/roxit-walkthrough.mp4) directly. Source under [`walkthrough/`](walkthrough/) — built with [Remotion](https://www.remotion.dev/).
+
+---
+
 ## 🚀 Quickstart for participants
 
 > **You need to do this once, before the workshop starts.** Allow ~15 minutes the first time (mostly waiting on downloads).

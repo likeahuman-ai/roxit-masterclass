@@ -1,0 +1,25 @@
+{
+  "name": "roxit-masterclass-walkthrough",
+  "version": "0.1.0",
+  "private": true,
+  "description": "30-second animated walkthrough of the Roxit Masterclass setup flow.",
+  "scripts": {
+    "dev": "remotion studio src/entry.ts",
+    "build": "remotion render src/entry.ts Walkthrough out/roxit-walkthrough.mp4 --codec=h264",
+    "build:gif": "remotion render src/entry.ts Walkthrough out/roxit-walkthrough.gif --codec=gif",
+    "upgrade": "remotion upgrade"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.350",
+    "@remotion/cli": "4.0.350",
+    "@remotion/google-fonts": "4.0.350",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.350"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "typescript": "5.7.2"
+  }
+}
