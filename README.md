@@ -32,9 +32,13 @@ No Node install. No git setup. No config. Works on macOS, Windows, and Linux.
 
 ### 🎬 30-second setup walkthrough
 
-https://github.com/likeahuman-ai/roxit-masterclass/raw/main/walkthrough/roxit-walkthrough.mp4
+<p align="center">
+  <video src="https://github.com/likeahuman-ai/roxit-masterclass/raw/main/walkthrough/roxit-walkthrough.mp4" controls muted playsinline width="720"></video>
+</p>
 
-> If the player doesn't load above, [download the MP4](walkthrough/roxit-walkthrough.mp4) directly. Source under [`walkthrough/`](walkthrough/) — built with [Remotion](https://www.remotion.dev/).
+<p align="center">
+  <sub>Doesn't play? <a href="walkthrough/roxit-walkthrough.mp4">Download the MP4</a> · source under <a href="walkthrough/"><code>walkthrough/</code></a> · built with <a href="https://www.remotion.dev/">Remotion</a></sub>
+</p>
 
 ---
 
