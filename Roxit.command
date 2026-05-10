@@ -46,14 +46,14 @@ fi
 
 # 3. Image present? Download + load from GitHub Release if missing.
 if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
-  echo "  Image laden — eenmalige download (~700 MB)..."
-  TARFILE="$TMPDIR/roxit-${ARCH}.tar"
-  if curl -fL --progress-bar "$RELEASE_URL/roxit-masterclass-${ARCH}.tar" -o "$TARFILE"; then
+  echo "  Image laden — eenmalige download (~420 MB)..."
+  TARFILE="$TMPDIR/roxit-${ARCH}.tar.gz"
+  if curl -fL --progress-bar "$RELEASE_URL/roxit-masterclass-${ARCH}.tar.gz" -o "$TARFILE"; then
     echo "  Image laden in Docker..."
     docker load -i "$TARFILE"
     rm -f "$TARFILE"
   else
-    osascript -e 'display dialog "Kon de Roxit-image niet downloaden. Check je internetverbinding en probeer opnieuw, of vraag hulp via WhatsApp." buttons {"OK"} default button 1 with icon caution'
+    osascript -e 'display dialog "Kon de Roxit-image niet downloaden. Check je internetverbinding en probeer opnieuw, of vraag de workshop-begeleider om hulp." buttons {"OK"} default button 1 with icon caution'
     exit 1
   fi
 fi

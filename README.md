@@ -82,7 +82,7 @@ The first time, your OS will warn about an "unidentified developer" or SmartScre
 The launcher then:
 
 1. Checks Docker is installed and running (auto-starts it if needed)
-2. Downloads the sandbox image (~700 MB, **only the first time**)
+2. Downloads the sandbox image (~420 MB gzipped, **only the first time**)
 3. Opens a terminal inside the sandbox
 
 ### Step 4 — Log in to Claude Code

@@ -36,13 +36,13 @@ fi
 
 # 3. Image present? Download + load if missing.
 if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
-  echo "  Image laden — eenmalige download (~700 MB)..."
+  echo "  Image laden — eenmalige download (~420 MB)..."
   TMPDIR_LOCAL="$(mktemp -d)"
-  TARFILE="$TMPDIR_LOCAL/roxit-${ARCH}.tar"
+  TARFILE="$TMPDIR_LOCAL/roxit-${ARCH}.tar.gz"
   if command -v curl >/dev/null 2>&1; then
-    curl -fL --progress-bar "$RELEASE_URL/roxit-masterclass-${ARCH}.tar" -o "$TARFILE"
+    curl -fL --progress-bar "$RELEASE_URL/roxit-masterclass-${ARCH}.tar.gz" -o "$TARFILE"
   elif command -v wget >/dev/null 2>&1; then
-    wget --progress=bar:force "$RELEASE_URL/roxit-masterclass-${ARCH}.tar" -O "$TARFILE"
+    wget --progress=bar:force "$RELEASE_URL/roxit-masterclass-${ARCH}.tar.gz" -O "$TARFILE"
   else
     echo "  curl of wget niet gevonden. Installeer er één en probeer opnieuw."
     exit 1

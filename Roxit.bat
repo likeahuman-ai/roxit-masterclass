@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal enabledelayedexpansion
 title Roxit Masterclass
 
 set IMAGE=roxit-masterclass:0.3
@@ -42,17 +42,17 @@ if errorlevel 1 (
 
 docker image inspect %IMAGE% >nul 2>&1
 if errorlevel 1 (
-  echo   Image laden - eenmalige download ^(~700 MB^)...
-  set TARFILE=%TEMP%\roxit-%ARCH%.tar
-  curl -fL --progress-bar "%RELEASE_URL%/roxit-masterclass-%ARCH%.tar" -o "%TARFILE%"
+  echo   Image laden - eenmalige download ^(~420 MB^)...
+  set "TARFILE=%TEMP%\roxit-%ARCH%.tar.gz"
+  curl -fL --progress-bar "%RELEASE_URL%/roxit-masterclass-%ARCH%.tar.gz" -o "!TARFILE!"
   if errorlevel 1 (
     echo   Kon de Roxit-image niet downloaden. Check je internet en probeer opnieuw.
     pause
     exit /b 1
   )
   echo   Image laden in Docker...
-  docker load -i "%TARFILE%"
-  del "%TARFILE%"
+  docker load -i "!TARFILE!"
+  del "!TARFILE!"
 )
 
 if not exist "%WORKDIR_HOST%" mkdir "%WORKDIR_HOST%"

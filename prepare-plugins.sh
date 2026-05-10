@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
 # prepare-plugins.sh — sync plugin cache from host into the Docker build context.
 # Run this before `docker build` whenever you want to refresh plugin versions.
+#
+# Prereq: the plugins below must be installed in the host's Claude Code
+# plugin cache at ~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/.
+# If a plugin is missing, the script SKIPs it and the snapshot is incomplete.
+#
+# To bootstrap a fresh host:
+#   claude plugin marketplace add likeahuman-ai/likeahuman
+#   claude plugin install branding-pitch@likeahuman
+#   claude plugin install font-hunt@likeahuman
+#   claude plugin marketplace add greensock/gsap-skills
+#   claude plugin install gsap-skills@gsap-skills
+#   claude plugin marketplace add pbakaus/impeccable
+#   claude plugin install impeccable@impeccable
+#   # claude-plugins-official ships with Claude Code by default
 
 set -euo pipefail
 
