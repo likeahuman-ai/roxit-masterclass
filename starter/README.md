@@ -1,39 +1,55 @@
 # Roxit Masterclass · Welcome
 
-You've unzipped your workshop pack. **Pick the path that fits you.**
+You've unzipped the workshop pack. **Now open this folder in VS Code.**
 
 ---
 
-## Path A · VS Code (recommended for everyone)
+## The path · VS Code (recommended)
 
-A real window with file tree, editor, and Claude Code in the side panel. ~5 minutes setup the first time, instant after.
+A real IDE window — file tree, editor, Claude Code in the integrated terminal.
 
-### One-time install (do this before the workshop)
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  VS Code · Roxit Masterclass [Dev Container]                     │
+├──────────┬───────────────────────────────────────────────────────┤
+│ EXPLORER │  CLAUDE.md ← your workshop context                    │
+│ ▼ roxit  │                                                       │
+│  .claude │  Edit files here.                                     │
+│  docs    ├───────────────────────────────────────────────────────┤
+│  ...     │  TERMINAL                                             │
+│          │   dev@roxit:/workspace$ claude                        │
+│          │   Run Claude Code here.                               │
+└──────────┴───────────────────────────────────────────────────────┘
+```
+
+### Before the workshop, install three things
 
 1. **Docker Desktop** → https://www.docker.com/products/docker-desktop/  
-   Open it once, wait for "Engine running" (green dot bottom-left). Then close the window.
+   Open it once → wait for "Engine running" (green dot bottom-left) → close the window.
 
-2. **VS Code** → https://code.visualstudio.com/  
-   Standard installer for your OS.
+2. **VS Code** → https://code.visualstudio.com/
 
-3. **Dev Containers extension** → Open VS Code → Extensions panel (⌘⇧X / Ctrl+Shift+X) → search **"Dev Containers"** → Install (publisher: Microsoft).
+3. **Dev Containers extension** → in VS Code: Extensions panel (`⌘⇧X` / `Ctrl+Shift+X`) → search **"Dev Containers"** → **Install** (publisher: Microsoft).
 
-### Open the workshop
+### To start the workshop
 
-1. In VS Code: **File → Open Folder…** → pick this `roxit-masterclass` folder.
-2. A blue toast appears bottom-right: **"Reopen in Container"** → click it.  
-   *Missed it?* Press `F1` → type **"Reopen in Container"** → Enter.
-3. First time: VS Code pulls the sandbox image (~420 MB) and starts the container. Take a coffee.
-4. When the terminal panel opens with the **ROXIT MASTERCLASS** banner, you're in.
-5. Type `claude` in the terminal → approve in browser → paste the code back. Done.
+1. **File → Open Folder…** → pick this folder (the one with `CLAUDE.md`).
+2. Blue toast bottom-right: **"Reopen in Container"** → click.  
+   *Missed it?* `F1` → **"Dev Containers: Reopen in Container"** → Enter.
+3. **First run only:** VS Code pulls the sandbox image (~420 MB).
+4. Terminal panel opens with the Roxit banner. Type:
 
-Your files in this folder are mirrored inside the container at `/workspace`. Edit in VS Code, run in the terminal — same files, both visible.
+   ```
+   claude
+   ```
+
+   Approve in the browser tab → paste the code back → start building.
 
 ---
 
-## Path B · Terminal launcher (fallback)
+## Alternative · raw terminal (if VS Code is blocked)
 
-Use this if VS Code is blocked by your IT, or you prefer raw terminal.
+Use this only if your IT blocks VS Code or Dev Containers.
 
 | Your OS | Double-click |
 |---|---|
@@ -42,22 +58,22 @@ Use this if VS Code is blocked by your IT, or you prefer raw terminal.
 | 🐧 Linux | `Roxit.sh` |
 
 First-run security warnings:
-- **macOS** → Right-click `Roxit.command` → **Open** → confirm **Open**
+- **macOS** → Right-click `Roxit.command` → **Open** → confirm
 - **Windows** → Click **More info** → **Run anyway**
 
-The launcher boots the same sandbox in your terminal. Type `claude` once you see the banner.
+Same sandbox, same `claude` command, no IDE.
 
 ---
 
 ## What's in this folder?
 
 ```
-.devcontainer/    Docker config — VS Code reads this
+.devcontainer/    Tells VS Code to run this folder in a container
 .claude/          Pre-installed agents, skills, plugins, settings
 docs/             Workshop documentation
-CLAUDE.md         Project context for Claude Code
-index.html       Visual overview of agents/skills/plugins
-Roxit.command/.bat/.sh   Terminal launchers (Path B)
+CLAUDE.md         Project context Claude Code reads on every prompt
+index.html       Visual overview of agents, skills, plugins
+Roxit.command/.bat/.sh   Terminal launchers (alternative path)
 ```
 
 ---
