@@ -1,12 +1,18 @@
 #!/bin/bash
 set -e
 
-# First-run: seed the workspace from the starter (don't overwrite existing work)
-if [ -z "$(ls -A /workspace 2>/dev/null)" ]; then
-  cp -r /workspace-starter/. /workspace/ 2>/dev/null || true
-fi
+# Mode: `entrypoint.sh banner` prints the banner and exits (used by VS Code
+# Dev Containers postAttachCommand). Default: seed workspace, print banner,
+# exec bash (used by docker run -it from Roxit.command launchers).
+MODE="${1:-shell}"
 
-[ -t 1 ] && command -v clear >/dev/null && clear || true
+if [ "$MODE" = "shell" ]; then
+  # First-run: seed the workspace from the starter (don't overwrite existing work)
+  if [ -z "$(ls -A /workspace 2>/dev/null)" ]; then
+    cp -r /workspace-starter/. /workspace/ 2>/dev/null || true
+  fi
+  [ -t 1 ] && command -v clear >/dev/null && clear || true
+fi
 
 HOST_PATH="${ROXIT_HOST_WORKSHOP:-(unknown — launched without Roxit launcher)}"
 HOST_OS="${ROXIT_HOST_OS:-your computer}"
@@ -72,5 +78,9 @@ cat <<EOF
   ${D}╴ Type ${R}${LM}exit${R}${D} to leave the sandbox · files persist${R}
 
 EOF
+
+if [ "$MODE" = "banner" ]; then
+  exit 0
+fi
 
 exec bash

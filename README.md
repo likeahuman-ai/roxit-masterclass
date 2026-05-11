@@ -44,29 +44,57 @@ No Node install. No git setup. No config. Works on macOS, Windows, and Linux.
 
 ## 🚀 Quickstart for participants
 
-> **You need to do this once, before the workshop starts.** Allow ~15 minutes the first time (mostly waiting on downloads).
+> **Two paths** — pick the one that fits. Both run the same sandbox.
+>
+> - **Path A · VS Code** — recommended for everyone. A real window with file tree, editor, and Claude Code in the side panel.
+> - **Path B · Terminal launcher** — fallback for IT-restricted machines or terminal lovers.
+>
+> Either way: do the install steps **before the workshop starts**.
 
-### Step 1 — Install Docker Desktop
+### Path A · VS Code (recommended)
 
-Docker is the engine that runs the sandbox. It's free.
+#### Step 1 — Install three things (one-time, ~10 min)
 
-- **macOS** → https://www.docker.com/products/docker-desktop/ → choose **Apple Silicon** (M1/M2/M3/M4) or **Intel chip**
-- **Windows** → https://www.docker.com/products/docker-desktop/ → choose **Windows**
-- **Linux** → install Docker Engine via your package manager
+| | What | Link |
+|---|---|---|
+| 1 | **Docker Desktop** | https://www.docker.com/products/docker-desktop/ |
+| 2 | **VS Code** | https://code.visualstudio.com/ |
+| 3 | **Dev Containers extension** | Open VS Code → Extensions panel → search "Dev Containers" → Install (Microsoft) |
 
-After install, **open Docker Desktop once** and wait until it says "Engine running" (bottom-left, green dot). You can then close the window — Docker keeps running in the background.
+After Docker installs, **open it once** and wait for "Engine running" (green dot, bottom-left). You can close the window after.
 
-> Not sure which Mac chip you have? Click  → **About This Mac**. "Apple M…" = Apple Silicon.
+#### Step 2 — Download + unzip the workshop pack
 
-### Step 2 — Download the workshop zip
+Grab the latest: **[github.com/likeahuman-ai/roxit-releases/releases/latest](https://github.com/likeahuman-ai/roxit-releases/releases/latest)** → `roxit-masterclass.zip` (~2 MB).
 
-Grab the latest release: **[github.com/likeahuman-ai/roxit-releases/releases/latest](https://github.com/likeahuman-ai/roxit-releases/releases/latest)**
+Unzip somewhere memorable, e.g. `~/Desktop/roxit-masterclass`.
 
-Download `roxit-masterclass.zip` (~5 KB — just the launchers; the 420 MB image is fetched on first run), then **unzip it** to a folder you'll remember (e.g. `~/Desktop/roxit-masterclass` or `Documents\roxit-masterclass`).
+#### Step 3 — Open in VS Code
 
-### Step 3 — Double-click the launcher
+1. VS Code → **File → Open Folder…** → pick the unzipped `roxit-masterclass` folder.
+2. A blue toast appears bottom-right: **"Reopen in Container"** → click it.  
+   *Missed it?* `F1` → "Reopen in Container" → Enter.
+3. First run: VS Code pulls the sandbox image (~420 MB) and starts the container.
+4. When the green **ROXIT MASTERCLASS** banner shows up in the integrated terminal, you're in.
+5. Type `claude` → approve in browser → paste code back. Ready.
 
-Inside the unzipped folder you'll see three launchers. Use the one for your OS:
+Edit files in VS Code, run commands in the terminal panel — same files, both views live.
+
+---
+
+### Path B · Terminal launcher (fallback)
+
+Use if VS Code isn't an option (corporate IT, preference, etc.). Same sandbox, raw shell.
+
+#### Step 1 — Docker Desktop only
+
+(Just the Docker step from Path A. Skip VS Code + extension.)
+
+#### Step 2 — Download + unzip
+
+Same `roxit-masterclass.zip` from the public mirror.
+
+#### Step 3 — Double-click the launcher
 
 | Your OS | Double-click |
 |---|---|
@@ -74,34 +102,9 @@ Inside the unzipped folder you'll see three launchers. Use the one for your OS:
 | 🪟 Windows | `Roxit.bat` |
 | 🐧 Linux | `Roxit.sh` |
 
-The first time, your OS will warn about an "unidentified developer" or SmartScreen. This is expected (we don't pay for code signing certificates).
+First run: macOS prompts "unidentified developer" → right-click → **Open** → confirm. Windows prompts SmartScreen → **More info** → **Run anyway**.
 
-- **macOS** → Right-click `Roxit.command` → **Open** → confirm **Open** in the dialog
-- **Windows** → Click **More info** → **Run anyway**
-
-The launcher then:
-
-1. Checks Docker is installed and running (auto-starts it if needed)
-2. Downloads the sandbox image (~420 MB gzipped, **only the first time**)
-3. Opens a terminal inside the sandbox
-
-### Step 4 — Log in to Claude Code
-
-Once the terminal opens, type:
-
-```
-claude
-```
-
-A browser tab opens automatically. **Approve access** with your Anthropic account. The browser shows a code — **copy it and paste it back into the terminal**. Done.
-
-You should now see the Claude Code prompt. Try:
-
-```
-What's in this workspace?
-```
-
-You're ready for the workshop. ✨
+The launcher checks Docker, pulls the image, drops you into the sandbox terminal. Type `claude` → approve → paste code back.
 
 ---
 
