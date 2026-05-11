@@ -5,47 +5,25 @@
 
   "remoteUser": "dev",
   "workspaceFolder": "/workspace",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
 
   "mounts": [
     "source=roxit-claude-data,target=/home/dev/.claude,type=volume"
   ],
 
-  "containerEnv": {
-    "ROXIT_HOST_OS": "${localEnv:OS:macOS}",
-    "ROXIT_HOST_WORKSHOP": "${localWorkspaceFolder}"
-  },
-
   "forwardPorts": [3000, 3001, 8080],
   "portsAttributes": {
-    "3000": { "label": "Next.js dev", "onAutoForward": "notify" },
-    "3001": { "label": "Secondary dev", "onAutoForward": "silent" },
-    "8080": { "label": "Generic / preview", "onAutoForward": "silent" }
+    "3000": { "label": "Dev server", "onAutoForward": "notify" },
+    "3001": { "label": "Secondary", "onAutoForward": "silent" },
+    "8080": { "label": "Preview", "onAutoForward": "silent" }
   },
 
   "customizations": {
     "vscode": {
-      "extensions": [
-        "anthropic.claude-code",
-        "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint",
-        "bradlc.vscode-tailwindcss"
-      ],
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash",
-        "terminal.integrated.profiles.linux": {
-          "bash": {
-            "path": "bash",
-            "args": ["-l"]
-          }
-        },
-        "editor.formatOnSave": true,
-        "files.eol": "\n",
         "telemetry.telemetryLevel": "off"
       }
     }
   },
 
-  "postAttachCommand": "/usr/local/bin/entrypoint.sh banner || true",
   "shutdownAction": "stopContainer"
 }
