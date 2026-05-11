@@ -201,18 +201,6 @@ Usually one of:
 </details>
 
 <details>
-<summary><b>VS Code: terminal opens but shows no Roxit banner</b></summary>
-
-The banner runs once on container attach (via `postAttachCommand`). If it didn't fire, run it manually:
-
-```bash
-/usr/local/bin/entrypoint.sh banner
-```
-
-Or just type `claude` — the workshop works fine without the banner.
-</details>
-
-<details>
 <summary><b>The browser tab never opens after typing <code>claude</code></b></summary>
 
 Some corporate machines block the auto-open. Look at the terminal output — it shows a URL like `https://claude.ai/oauth/...`. Copy that URL into a browser manually, approve, and paste the code back into the terminal.
@@ -267,61 +255,17 @@ You can open that folder in VS Code, Finder, or Explorer like any other folder.
 
 ## 🔐 For IT / security
 
-The sandbox runs as a **non-root user** (`dev`) inside Docker. Network access is unrestricted by default so participants can fetch docs, deploy previews, and use AI features. Restrictions can be layered on top via `managed-settings.json` without rebuilding the image.
+Sandbox runs as a non-root `dev` user. Network egress is unrestricted by default; restrictions layer on via managed settings without an image rebuild.
 
-See [`starter/.claude/managed-settings.example.jsonc`](starter/.claude/managed-settings.example.jsonc) for a commented menu of everything you can lock down:
-
-- Internal git / npm registry only
-- Block `WebFetch` / `WebSearch`
-- Disable deploy commands
-- Pin model version
-- Redirect telemetry to your OTLP collector
-
-Telemetry is **on by default** (console exporter) so participants can see their own activity. Point `OTEL_EXPORTER_OTLP_ENDPOINT` at your collector to centralise logs.
+→ Full details in [**SECURITY.md**](SECURITY.md) — share this with your IT contact.
 
 ---
 
 ## 🛠 Build (maintainers only)
 
-This source repo is **private**. Participant launchers download release assets unauthenticated, so tarballs + the participant zip ship from the **public mirror**: [`likeahuman-ai/roxit-releases`](https://github.com/likeahuman-ai/roxit-releases).
+Multi-arch buildx → GHCR push → tarball save → release on the public mirror.
 
-```bash
-# 1. Multi-arch build + push to GHCR
-docker buildx build --platform linux/amd64,linux/arm64 \
-  -t ghcr.io/likeahuman-ai/roxit-masterclass:0.3 --push .
-
-# 2. Local arm64 only (for testing on Apple Silicon)
-docker buildx build --platform linux/arm64 -t roxit-masterclass:0.3 --load .
-
-# 3. Save as gzipped tarballs
-docker save roxit-masterclass:0.3-amd64 | gzip > roxit-masterclass-amd64.tar.gz
-docker save roxit-masterclass:0.3-arm64 | gzip > roxit-masterclass-arm64.tar.gz
-
-# 4. Build participant zip (just the launchers)
-mkdir -p /tmp/roxit-masterclass
-cp Roxit.command Roxit.bat Roxit.sh /tmp/roxit-masterclass/
-chmod +x /tmp/roxit-masterclass/Roxit.{command,sh}
-( cd /tmp && zip -r roxit-masterclass.zip roxit-masterclass/ )
-
-# 5. Publish to the public mirror (creates v0.3 if it doesn't exist)
-gh release create v0.3 \
-  --repo likeahuman-ai/roxit-releases \
-  --title "v0.3 — Roxit Masterclass Sandbox" \
-  --notes-file release-notes.md \
-  roxit-masterclass-amd64.tar.gz \
-  roxit-masterclass-arm64.tar.gz \
-  /tmp/roxit-masterclass.zip
-```
-
-To update an existing release, replace `gh release create` with `gh release upload v0.3 --clobber <files...>`.
-
-Plugin cache snapshot (run before `docker build` to refresh):
-
-```bash
-./prepare-plugins.sh
-```
-
-This syncs the host's `~/.claude/plugins/cache/` into `plugins-snapshot/` for the Docker build context. Adjust versions in the script when bumping plugins.
+→ Full build pipeline in [**DEPLOY.md**](DEPLOY.md).
 
 ---
 
