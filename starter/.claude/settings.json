@@ -23,8 +23,7 @@
       "Read(/home/dev/.ssh/**)",
       "Read(/home/dev/.aws/**)",
       "Read(/home/dev/.gnupg/**)",
-      "Read(/etc/shadow)",
-      "Bash(:(){ :|:& };:)"
+      "Read(/etc/shadow)"
     ]
   },
   "plugins": {
