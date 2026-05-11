@@ -86,9 +86,9 @@ if errorlevel 1 (
   echo   %AC%o%R%  Loading image into Docker
   docker load -i "!TARFILE!" >nul
   del "!TARFILE!"
-  echo   %LM%v%R%  Sandbox image                 %D%%IMAGE% (loaded)%R%
+  echo   %LM%v%R%  Sandbox image                 %D%%IMAGE% ^(loaded^)%R%
 ) else (
-  echo   %LM%v%R%  Sandbox image                 %D%%IMAGE% (cached)%R%
+  echo   %LM%v%R%  Sandbox image                 %D%%IMAGE% ^(cached^)%R%
 )
 
 REM ─────────────────────────────────────────────────────────────────────────
@@ -120,7 +120,7 @@ if "!PORT_REMAPPED!"=="1" (
 echo.
 echo   %D%-----------------------------------------------%R%
 echo.
-echo   %B%Launching sandbox...%R%   %D%(Ctrl+D to exit)%R%
+echo   %B%Launching sandbox...%R%   %D%^(Ctrl+D to exit^)%R%
 echo.
 
 docker run -it --rm ^
