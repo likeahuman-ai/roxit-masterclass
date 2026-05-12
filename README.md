@@ -6,7 +6,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Client-Visma_Roxit-0052CC?style=for-the-badge" alt="Visma Roxit">
   <img src="https://img.shields.io/badge/By-Like_a_Human-000?style=for-the-badge" alt="Like a Human">
-  <img src="https://img.shields.io/badge/Status-v0.3_experimental-orange?style=for-the-badge" alt="Status">
+  <img src="https://img.shields.io/badge/Status-v0.4-brightgreen?style=for-the-badge" alt="Status">
 </p>
 
 <br>
@@ -46,65 +46,53 @@ No Node install. No git setup. No config. Works on macOS, Windows, and Linux.
 
 > **Do this once before the workshop starts.** ~15 minutes total, mostly waiting on downloads.
 
-### The recommended way · VS Code
+### Step 1 — Install Docker Desktop (one-time)
 
-A real IDE window with file tree, editor, and Claude Code in the integrated terminal. Same sandbox underneath, way friendlier on top.
+| Your OS | Link |
+|---|---|
+| 🍎 macOS | [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/) |
+| 🪟 Windows | [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/) |
+| 🐧 Linux | [docs.docker.com/desktop/install/linux](https://docs.docker.com/desktop/install/linux/) |
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│  VS Code · Roxit Masterclass [Dev Container]                     │
-├──────────┬───────────────────────────────────────────────────────┤
-│ EXPLORER │  CLAUDE.md                                            │
-│ ▼ roxit  │                                                       │
-│  .claude │  # Workshop project context                           │
-│  docs    │  ...                                                  │
-│  CLAUDE. │                                                       │
-│  README. ├───────────────────────────────────────────────────────┤
-│  index.  │  TERMINAL                                             │
-│          │   ╭───────────────────────────────╮                   │
-│          │   │  ROXIT MASTERCLASS            │                   │
-│          │   │  Claude Code sandbox          │                   │
-│          │   ╰───────────────────────────────╯                   │
-│          │   dev@roxit:/workspace$ claude                        │
-└──────────┴───────────────────────────────────────────────────────┘
-```
+After installing, **open Docker Desktop once** and wait until it shows **"Engine running"** (green dot, bottom-left). You can close the window after that — Docker keeps running in the background.
 
-#### Step 1 — Install three things (one-time)
+> **Mac chip check:** click  → **About This Mac**. "Apple M…" = Apple Silicon. Pick the right installer.
 
-| | What | Link |
-|---|---|---|
-| 1 | **Docker Desktop** | [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/) |
-| 2 | **VS Code** | [code.visualstudio.com](https://code.visualstudio.com/) |
-| 3 | **Dev Containers extension** | In VS Code: **Extensions panel** (⌘⇧X / Ctrl+Shift+X) → search **"Dev Containers"** → **Install** (publisher: Microsoft) |
+> **Windows:** Docker Desktop requires WSL 2. If it's not installed, Docker shows a one-click installer link on first launch — follow it, restart, and open Docker Desktop again.
 
-After Docker installs, **open it once** and wait for "Engine running" (green dot, bottom-left). You can close the window — Docker keeps running in the background.
+---
 
-> Mac chip check: click  → **About This Mac**. "Apple M…" = Apple Silicon. Pick the right Docker installer.
+### Step 2 — Download the workshop pack
 
-#### Step 2 — Download the workshop pack
+**[Download `roxit-masterclass.zip` →](https://github.com/likeahuman-ai/roxit-releases/releases/latest)**
 
-**[Grab `roxit-masterclass.zip` →](https://github.com/likeahuman-ai/roxit-releases/releases/latest)** (~2 MB, contains the workshop starter + launchers)
+Unzip it somewhere memorable — Desktop or Documents works fine.
 
-Unzip somewhere memorable: `~/Desktop/roxit-masterclass` or `Documents\roxit-masterclass`.
+---
 
-#### Step 3 — Open the folder in VS Code
+### Step 3 — Start the sandbox
 
-1. Launch VS Code → **File → Open Folder…** → pick the unzipped `roxit-masterclass` folder.
-2. Wait for the blue toast at the bottom-right:
+Open the unzipped folder and double-click your launcher:
 
-   > 📦 **Folder contains a Dev Container configuration file. Reopen folder to develop in a container.**
-   >
-   > **\[Reopen in Container\]**  Dismiss
+| Your OS | Double-click |
+|---|---|
+| 🍎 macOS | `Roxit.command` |
+| 🪟 Windows | `Roxit.bat` |
+| 🐧 Linux | `Roxit.sh` |
 
-   Click **Reopen in Container**.
+**First-time OS warning — expected, safe to proceed:**
+- **macOS** — Right-click `Roxit.command` → **Open** → confirm **Open**. macOS remembers — no warning next time.
+- **Windows** — Click **More info** → **Run anyway**. Windows remembers — no warning next time.
 
-   *Missed it?* Open the command palette (`F1` or `⌘⇧P` / `Ctrl+Shift+P`) → type **"Dev Containers: Reopen in Container"** → Enter.
+**First run only:** the launcher downloads the sandbox image (~420 MB). This takes 2–5 minutes depending on your connection. After that it starts instantly every time.
 
-3. **First run only:** VS Code pulls the sandbox image from GitHub (~420 MB). Take a coffee — you'll see "Starting Dev Container" in the status bar.
+A terminal window opens with the Roxit banner. You're inside the sandbox.
 
-4. When ready: the integrated terminal opens with the Roxit banner. You're inside the sandbox.
+---
 
-#### Step 4 — Log in to Claude Code
+### Step 4 — Log in to Claude Code
+
+Type this and press Enter:
 
 ```
 claude
@@ -122,26 +110,9 @@ You're ready. ✨
 
 ---
 
-<details>
-<summary><b>🐚 Alternative path — raw terminal launcher (advanced / IT-restricted)</b></summary>
+### (Optional) View your files in VS Code
 
-If VS Code is blocked by your IT, or you prefer a raw shell, the same sandbox boots from a double-clickable launcher.
-
-**Skip step 1.2 and 1.3** above (no VS Code or extension needed). Just install Docker Desktop. Then:
-
-| Your OS | Double-click |
-|---|---|
-| 🍎 macOS | `Roxit.command` |
-| 🪟 Windows | `Roxit.bat` |
-| 🐧 Linux | `Roxit.sh` |
-
-First run shows OS security warnings:
-- **macOS** → Right-click `Roxit.command` → **Open** → confirm **Open**
-- **Windows** → Click **More info** → **Run anyway**
-
-The launcher checks Docker, downloads the image, detects free ports (handles 3000-conflicts automatically), and drops you into the Roxit-branded sandbox terminal. Type `claude` once you see the banner.
-
-</details>
+Your files live at `~/roxit-workshop` (macOS/Linux) or `C:\Users\<name>\roxit-workshop` (Windows). You can open that folder in VS Code, Finder, or Explorer like any normal folder to browse and read files. No extensions needed.
 
 ---
 
@@ -172,32 +143,13 @@ If it still fails, ask the workshop facilitator for the tar file directly.
 <details>
 <summary><b>"Port 3000 is already in use"</b></summary>
 
-Something else on your machine is using port 3000 (commonly: another Node.js app, Grafana, or a previous Roxit container).
-
-In VS Code: ports tab at the bottom shows the active forwards — right-click and "Stop Forwarding Port" if you want to free it. The launcher path handles this automatically: it picks the next free port (3001, 3002…) and shows the remapping.
+Something else on your machine is using port 3000 (commonly: another Node.js app, Grafana, or a previous Roxit container). The launcher picks the next free port automatically and shows the remapping in the terminal.
 
 To clear leftover containers:
 ```bash
 docker ps             # list running containers
 docker stop <name>    # stop the one on port 3000
 ```
-</details>
-
-<details>
-<summary><b>VS Code: no "Reopen in Container" prompt appears</b></summary>
-
-The **Dev Containers** extension isn't installed. Open the Extensions panel (⌘⇧X / Ctrl+Shift+X) → search **"Dev Containers"** → install the one published by **Microsoft** (the official one — has a blue verified checkmark).
-
-Then either reload VS Code (⌘⇧P → "Reload Window") or re-open the folder.
-</details>
-
-<details>
-<summary><b>VS Code: "Dev container failed to start"</b></summary>
-
-Usually one of:
-1. **Docker isn't running** — open Docker Desktop, wait for "Engine running".
-2. **Image pull failed** — first-run pulls ~420 MB from `ghcr.io`. Corporate firewalls sometimes block it. Try a personal hotspot.
-3. **Stale container** — open command palette → "Dev Containers: Rebuild Container" to start fresh.
 </details>
 
 <details>
@@ -217,7 +169,7 @@ On macOS, give Docker Desktop **Full Disk Access** in System Settings → Privac
 <details>
 <summary><b>I'm on a corporate laptop and IT blocks Docker</b></summary>
 
-Talk to your IT contact and forward them the [For IT / security](#-for-it--security) section below. Docker Desktop is the only requirement, no admin install of Node/npm/git is needed.
+Talk to your IT contact and forward them the [For IT / security](#-for-it--security) section below. Docker Desktop is the only requirement — no admin install of Node/npm/git is needed.
 </details>
 
 ---
@@ -249,8 +201,6 @@ Your laptop                          Inside the sandbox
 
 Anything you create in `/workspace` (inside the sandbox) appears in `~/roxit-workshop/` (on your laptop). Files survive container restarts — **your work is never lost**.
 
-You can open that folder in VS Code, Finder, or Explorer like any other folder.
-
 ---
 
 ## 🔐 For IT / security
@@ -263,7 +213,7 @@ Sandbox runs as a non-root `dev` user. Network egress is unrestricted by default
 
 ## 🛠 Build (maintainers only)
 
-Multi-arch buildx → GHCR push → tarball save → release on the public mirror.
+Multi-arch buildx → tarball save → release on the public mirror.
 
 → Full build pipeline in [**DEPLOY.md**](DEPLOY.md).
 
