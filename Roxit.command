@@ -5,7 +5,7 @@ set -e
 # ─────────────────────────────────────────────────────────────────────────────
 #  Configuration
 # ─────────────────────────────────────────────────────────────────────────────
-RELEASE_URL="${ROXIT_RELEASE_URL:-https://github.com/likeahuman-ai/roxit-releases/releases/download/v0.3}"
+RELEASE_URL="${ROXIT_RELEASE_URL:-https://github.com/likeahuman-ai/roxit-releases/releases/download/v0.4}"
 WORKDIR_HOST="$HOME/roxit-workshop"
 CLAUDE_VOLUME="roxit-claude-data"
 DESIRED_PORTS=(3000 3001 8080)
@@ -15,7 +15,7 @@ case "$(uname -m)" in
   arm64)        ARCH=arm64 ;;
   *)            ARCH=amd64 ;;
 esac
-IMAGE="${ROXIT_IMAGE:-roxit-masterclass:0.3-${ARCH}}"
+IMAGE="${ROXIT_IMAGE:-roxit-masterclass:0.4-${ARCH}}"
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  Visuals

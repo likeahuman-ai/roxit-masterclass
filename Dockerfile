@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
+ENV COREPACK_ENABLE_DOWNLOAD_FALLBACK=0
 
 # Workshop tooling — pinned where it matters, latest where it's safe.
 # Anything project-local is installed on-demand via pnpm/npx; this is the
@@ -26,7 +27,10 @@ RUN npm install -g \
       create-next-app
 
 RUN useradd -m -s /bin/bash dev && mkdir -p /workspace /workspace-starter /home/dev/.claude /etc/claude-code \
-    && chown -R dev:dev /workspace /workspace-starter /home/dev/.claude
+    && chown -R dev:dev /workspace /workspace-starter /home/dev/.claude \
+    && git config --system init.defaultBranch main \
+    && git config --system user.email "workshop@roxit.nl" \
+    && git config --system user.name "Roxit Workshop"
 
 COPY --chown=dev:dev starter/ /workspace-starter/
 COPY --chown=dev:dev entrypoint.sh /usr/local/bin/entrypoint.sh
@@ -52,7 +56,7 @@ ENV CLAUDE_CODE_ENABLE_TELEMETRY=1 \
     OTEL_LOGS_EXPORTER=console \
     OTEL_METRIC_EXPORT_INTERVAL=60000 \
     OTEL_LOGS_EXPORT_INTERVAL=30000 \
-    OTEL_RESOURCE_ATTRIBUTES="service.name=roxit-masterclass,deployment.environment=workshop,service.version=0.3" \
+    OTEL_RESOURCE_ATTRIBUTES="service.name=roxit-masterclass,deployment.environment=workshop,service.version=0.4" \
     DISABLE_AUTOUPDATER=1 \
     DISABLE_ERROR_REPORTING=1 \
     BASH_DEFAULT_TIMEOUT_MS=300000
