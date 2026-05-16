@@ -19,7 +19,7 @@ ENV COREPACK_ENABLE_DOWNLOAD_FALLBACK=0
 # Anything project-local is installed on-demand via pnpm/npx; this is the
 # baseline so first-runs and offline classrooms work without surprises.
 RUN npm install -g \
-      @anthropic-ai/claude-code@2.1.138 \
+      @anthropic-ai/claude-code@2.1.143 \
       vercel \
       convex \
       tsx \

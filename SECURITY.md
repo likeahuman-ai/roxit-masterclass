@@ -33,7 +33,7 @@ Mount the managed-settings file into the container at runtime — no image rebui
 - **Built from** the private `likeahuman-ai/roxit-masterclass` repo
 - **Distributed via** `ghcr.io/likeahuman-ai/roxit-masterclass:0.3` (public read, multi-arch) and as `.tar.gz` mirror on `likeahuman-ai/roxit-releases` (public)
 - **Base layers:** `node:22-slim` (Debian-based, Anthropic-reviewed)
-- **Pre-installed binaries:** Node 22 + pnpm, Vercel CLI, Convex CLI, GitHub CLI, ripgrep, jq, tsx, TypeScript, Claude Code CLI (`@anthropic-ai/claude-code@2.1.138`)
+- **Pre-installed binaries:** Node 22 + pnpm, Vercel CLI, Convex CLI, GitHub CLI, ripgrep, jq, tsx, TypeScript, Claude Code CLI (`@anthropic-ai/claude-code@2.1.143`)
 - **No secrets, no API keys baked in.** Participants authenticate via Claude Code's browser OAuth flow at first run.
 
 ## Permission rules
