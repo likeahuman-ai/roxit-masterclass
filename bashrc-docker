@@ -1,0 +1,69 @@
+# Roxit Masterclass — dev user .bashrc
+# Dev servers inside Docker bind 127.0.0.1 by default, which is only reachable
+# within the container. These wrappers inject 0.0.0.0 so the host browser can
+# connect via the forwarded ports (-p 3000:3000 etc.).
+
+# Next.js: `next dev` → `next dev --hostname 0.0.0.0`
+next() {
+  if [ "$1" = "dev" ]; then
+    shift
+    command next dev --hostname 0.0.0.0 "$@"
+  else
+    command next "$@"
+  fi
+}
+export -f next
+
+# pnpm: intercept `pnpm dev` / `pnpm run dev` / `pnpm next dev`
+pnpm() {
+  case "$1" in
+    dev)
+      shift
+      command pnpm dev --hostname 0.0.0.0 "$@"
+      ;;
+    run)
+      if [ "$2" = "dev" ]; then
+        shift 2
+        command pnpm run dev --hostname 0.0.0.0 "$@"
+      else
+        command pnpm "$@"
+      fi
+      ;;
+    next)
+      if [ "$2" = "dev" ]; then
+        shift 2
+        command pnpm next dev --hostname 0.0.0.0 "$@"
+      else
+        command pnpm "$@"
+      fi
+      ;;
+    *)
+      command pnpm "$@"
+      ;;
+  esac
+}
+export -f pnpm
+
+# npm: intercept `npm run dev` to add -- --hostname 0.0.0.0
+npm() {
+  if [ "$1" = "run" ] && [ "$2" = "dev" ]; then
+    shift 2
+    command npm run dev -- --hostname 0.0.0.0 "$@"
+  else
+    command npm "$@"
+  fi
+}
+export -f npm
+
+# npx: intercept `npx next dev` to add --hostname
+npx() {
+  if [ "$1" = "next" ] && [ "$2" = "dev" ]; then
+    shift 2
+    command npx next dev --hostname 0.0.0.0 "$@"
+  elif [ "$1" = "convex" ] && [ "$2" = "dev" ]; then
+    command npx "$@"
+  else
+    command npx "$@"
+  fi
+}
+export -f npx

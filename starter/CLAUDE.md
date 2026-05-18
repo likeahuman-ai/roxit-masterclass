@@ -16,6 +16,18 @@ See `.ard/` for all Architecture Decision Records. Current decisions:
 - When asked to build UI: follow the Roxit design system below
 - Default language: Dutch for conversation, English for code
 
+## Dev server binding — HARD RULE
+
+This runs inside Docker. Dev servers MUST bind to `0.0.0.0` or the host browser cannot reach them.
+
+- `next dev --hostname 0.0.0.0`
+- `vite --host`
+- `node server.js` → listen on `0.0.0.0`, not `localhost`
+- Any HTTP server: bind `0.0.0.0`, not `127.0.0.1`
+
+Shell wrappers in `.bashrc` handle `next dev`, `pnpm dev`, `npm run dev` automatically.
+If you start a server any other way, always bind `0.0.0.0` explicitly.
+
 ## How to help
 
 - When someone doesn't know where to start: ask "Wat wil je vandaag bouwen?"

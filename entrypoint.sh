@@ -11,6 +11,7 @@ if [ "$MODE" = "shell" ]; then
   if [ -z "$(ls -A /workspace 2>/dev/null)" ]; then
     cp -r /workspace-starter/. /workspace/ 2>/dev/null || true
   fi
+
   [ -t 1 ] && command -v clear >/dev/null && clear || true
 fi
 
@@ -73,6 +74,24 @@ cat <<EOF
 
   ${AC}◆${R}  ${B}${CR}DEV SERVER${R}
      ${GY}localhost:3000  ·  3001  ·  8080${R}   ${D}open in your browser${R}
+     ${D}Servers auto-bind 0.0.0.0 so ports are reachable from your host${R}
+EOF
+
+# Detect if ports are actually forwarded by checking ROXIT_HOST_OS (set by
+# launchers) or if any of the expected ports show in /proc/net/tcp listening.
+# If the container was started with plain `docker run` (no -p flags), warn.
+if [ -z "${ROXIT_HOST_OS:-}" ]; then
+  cat <<EOF
+
+  ${YE}!${R}  ${B}Ports may not be forwarded${R}
+     ${D}It looks like this container was started without the Roxit launcher.${R}
+     ${D}Dev servers inside the container won't be reachable from your browser${R}
+     ${D}unless you started with: ${R}${LM}docker run -p 3000:3000 -p 3001:3001 -p 8080:8080 ...${R}
+     ${D}Or use the launcher: ${R}${LM}bash Roxit.sh${R}${D} / double-click ${R}${LM}Roxit.command${R}
+EOF
+fi
+
+cat <<EOF
 
   ${D}╴ Telemetry  ${TELEMETRY_LABEL}
   ${D}╴ Type ${R}${LM}exit${R}${D} to leave the sandbox · files persist${R}

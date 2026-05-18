@@ -5,7 +5,15 @@ set -e
 # ─────────────────────────────────────────────────────────────────────────────
 #  Configuration
 # ─────────────────────────────────────────────────────────────────────────────
-RELEASE_URL="${ROXIT_RELEASE_URL:-https://github.com/likeahuman-ai/roxit-releases/releases/download/v0.4}"
+# Self-updating launcher: on each run we ask GitHub which release is current
+# (the "latest" marker, maintained automatically by `gh release create
+# --latest`). An OLD launcher file therefore still pulls the NEWEST image —
+# participants never need a fresh zip. If the network is down (offline
+# classroom) or GitHub is unreachable we fall back to FALLBACK_VERSION so the
+# workshop still runs.
+RELEASES_BASE="https://github.com/likeahuman-ai/roxit-releases/releases"
+LATEST_API="https://api.github.com/repos/likeahuman-ai/roxit-releases/releases/latest"
+FALLBACK_VERSION="v0.5"
 WORKDIR_HOST="$HOME/roxit-workshop"
 CLAUDE_VOLUME="roxit-claude-data"
 DESIRED_PORTS=(3000 3001 8080)
@@ -15,7 +23,24 @@ case "$(uname -m)" in
   aarch64|arm64)  ARCH=arm64 ;;
   *) echo "Onbekende architectuur: $(uname -m). Werkt alleen op x86_64/arm64."; exit 1 ;;
 esac
-IMAGE="${ROXIT_IMAGE:-roxit-masterclass:0.4-${ARCH}}"
+
+# Resolve the active version. Explicit overrides win (workshop-day pinning);
+# otherwise ask GitHub for the latest release tag; otherwise fall back to the
+# baked-in baseline. We grep tag_name rather than add a jq dependency.
+# NOTE: resolve_version is curl-only; on wget-only boxes it silently uses
+# FALLBACK_VERSION (acceptable — the tarball download below has wget fallback).
+resolve_version() {
+  if [ -n "$ROXIT_VERSION" ]; then echo "$ROXIT_VERSION"; return; fi
+  local v
+  v="$(curl -fsSL --max-time 5 "$LATEST_API" 2>/dev/null \
+        | grep -m1 '"tag_name"' \
+        | sed -E 's/.*"tag_name"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')"
+  case "$v" in
+    v[0-9]*) echo "$v" ;;
+    *)       echo "$FALLBACK_VERSION" ;;
+  esac
+}
+VERSION="$(resolve_version)"
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  Visuals
@@ -70,25 +95,47 @@ if ! docker info >/dev/null 2>&1; then
 fi
 step_ok "Docker daemon" "engine running"
 
-# 3. Image present?
-if docker image inspect "$IMAGE" >/dev/null 2>&1; then
-  step_ok "Sandbox image" "$IMAGE (cached)"
-else
-  step_run "Downloading sandbox image" "~420 MB · one time only"
-  TMPDIR_LOCAL="$(mktemp -d)"
-  TARFILE="$TMPDIR_LOCAL/roxit-${ARCH}.tar.gz"
+# 3. Image present? Try the resolved version, then fall back to
+#    FALLBACK_VERSION so a half-published release (the "latest" marker flipped
+#    before tarballs finished uploading) can't brick every laptop in the room.
+TMPDIR_LOCAL="$(mktemp -d)"
+TARFILE="$TMPDIR_LOCAL/roxit-${ARCH}.tar.gz"
+trap 'rm -rf "$TMPDIR_LOCAL"' EXIT
+
+download_tarball() {  # $1 = release URL
   if command -v curl >/dev/null 2>&1; then
-    curl -fL --progress-bar "$RELEASE_URL/roxit-masterclass-${ARCH}.tar.gz" -o "$TARFILE"
+    curl -fL --progress-bar "$1/roxit-masterclass-${ARCH}.tar.gz" -o "$TARFILE"
   elif command -v wget >/dev/null 2>&1; then
-    wget --progress=bar:force "$RELEASE_URL/roxit-masterclass-${ARCH}.tar.gz" -O "$TARFILE"
+    wget --progress=bar:force "$1/roxit-masterclass-${ARCH}.tar.gz" -O "$TARFILE"
   else
     step_err "curl/wget not found" "install one and retry"
     exit 1
   fi
+}
+
+fetch_and_load() {  # $1 = version tag (e.g. v0.5)
+  local ver="$1"
+  local img="roxit-masterclass:${ver#v}-${ARCH}"
+  [ -n "$ROXIT_IMAGE" ] && img="$ROXIT_IMAGE"
+  if docker image inspect "$img" >/dev/null 2>&1; then
+    IMAGE="$img"; step_ok "Sandbox image" "$IMAGE (cached)"; return 0
+  fi
+  local url="${ROXIT_RELEASE_URL:-$RELEASES_BASE/download/$ver}"
+  step_run "Downloading sandbox image" "$ver · ~420 MB · one time only"
+  download_tarball "$url" || return 1
   step_run "Loading image into Docker"
   docker load -i "$TARFILE" >/dev/null
-  rm -rf "$TMPDIR_LOCAL"
-  step_ok "Sandbox image" "$IMAGE (loaded)"
+  IMAGE="$img"; step_ok "Sandbox image" "$IMAGE (loaded)"
+}
+
+if ! fetch_and_load "$VERSION"; then
+  if [ "$VERSION" != "$FALLBACK_VERSION" ]; then
+    step_warn "Latest unavailable" "falling back to $FALLBACK_VERSION"
+    fetch_and_load "$FALLBACK_VERSION" || { step_err "Download failed" "check network, retry"; exit 1; }
+  else
+    step_err "Download failed" "check network, retry"
+    exit 1
+  fi
 fi
 
 # 4. Workspace + Claude token volume

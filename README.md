@@ -6,7 +6,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Client-Visma_Roxit-0052CC?style=for-the-badge" alt="Visma Roxit">
   <img src="https://img.shields.io/badge/By-Like_a_Human-000?style=for-the-badge" alt="Like a Human">
-  <img src="https://img.shields.io/badge/Status-v0.4-brightgreen?style=for-the-badge" alt="Status">
+  <img src="https://img.shields.io/badge/Status-v0.5-brightgreen?style=for-the-badge" alt="Status">
 </p>
 
 <br>

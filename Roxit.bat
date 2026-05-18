@@ -5,12 +5,35 @@ title Roxit Masterclass
 REM ─────────────────────────────────────────────────────────────────────────
 REM  Configuration
 REM ─────────────────────────────────────────────────────────────────────────
-set "RELEASE_URL=https://github.com/likeahuman-ai/roxit-releases/releases/download/v0.4"
+REM Self-updating launcher: ask GitHub for the current "latest" release
+REM (maintained automatically by `gh release create --latest`) so an OLD
+REM launcher file still pulls the NEWEST image. Offline / unreachable ->
+REM fall back to FALLBACK_VERSION so the workshop still runs.
+set "RELEASES_BASE=https://github.com/likeahuman-ai/roxit-releases/releases"
+set "LATEST_API=https://api.github.com/repos/likeahuman-ai/roxit-releases/releases/latest"
+set "FALLBACK_VERSION=v0.5"
 set "WORKDIR_HOST=%USERPROFILE%\roxit-workshop"
 set "CLAUDE_VOLUME=roxit-claude-data"
 set ARCH=amd64
 if /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" set ARCH=arm64
-set "IMAGE=roxit-masterclass:0.4-%ARCH%"
+
+REM Resolve active version: explicit override wins; else parse tag_name from
+REM the GitHub API JSON; else fall back to the baked-in baseline.
+set "VERSION="
+if defined ROXIT_VERSION set "VERSION=%ROXIT_VERSION%"
+if not defined VERSION (
+  for /F "usebackq tokens=2 delims=:, " %%T in (`curl -fsSL --max-time 5 "%LATEST_API%" 2^>nul ^| findstr /C:"\"tag_name\""`) do (
+    if not defined VERSION set "VERSION=%%~T"
+  )
+)
+if not defined VERSION set "VERSION=%FALLBACK_VERSION%"
+echo %VERSION% | findstr /I /R "^v[0-9]" >nul 2>&1 || set "VERSION=%FALLBACK_VERSION%"
+
+set "VTAG=%VERSION:v=%"
+set "RELEASE_URL=%RELEASES_BASE%/download/%VERSION%"
+if defined ROXIT_RELEASE_URL set "RELEASE_URL=%ROXIT_RELEASE_URL%"
+set "IMAGE=roxit-masterclass:%VTAG%-%ARCH%"
+if defined ROXIT_IMAGE set "IMAGE=%ROXIT_IMAGE%"
 
 REM ─────────────────────────────────────────────────────────────────────────
 REM  Visuals — ANSI escape (Windows 10+)
@@ -73,22 +96,24 @@ echo   %LM%v%R%  Docker daemon                 %D%engine running%R%
 REM ─────────────────────────────────────────────────────────────────────────
 REM  3. Image present?
 REM ─────────────────────────────────────────────────────────────────────────
-docker image inspect %IMAGE% >nul 2>&1
+REM Try resolved version, then FALLBACK_VERSION, so a half-published release
+REM (latest marker flipped before tarballs uploaded) can't brick the room.
+set "TARFILE=%TEMP%\roxit-%ARCH%.tar.gz"
+call :fetch_and_load "%VERSION%"
 if errorlevel 1 (
-  echo   %AC%o%R%  Downloading sandbox image    %D%~420 MB - one time only%R%
-  set "TARFILE=%TEMP%\roxit-%ARCH%.tar.gz"
-  curl -fL --progress-bar "%RELEASE_URL%/roxit-masterclass-%ARCH%.tar.gz" -o "!TARFILE!"
-  if errorlevel 1 (
+  if /I not "%VERSION%"=="%FALLBACK_VERSION%" (
+    echo   %YE%!%R%  Latest unavailable            %D%falling back to %FALLBACK_VERSION%%R%
+    call :fetch_and_load "%FALLBACK_VERSION%"
+    if errorlevel 1 (
+      echo   %RD%X%R%  Download failed              %D%check network and retry%R%
+      pause
+      exit /b 1
+    )
+  ) else (
     echo   %RD%X%R%  Download failed              %D%check network and retry%R%
     pause
     exit /b 1
   )
-  echo   %AC%o%R%  Loading image into Docker
-  docker load -i "!TARFILE!" >nul
-  del "!TARFILE!"
-  echo   %LM%v%R%  Sandbox image                 %D%%IMAGE% ^(loaded^)%R%
-) else (
-  echo   %LM%v%R%  Sandbox image                 %D%%IMAGE% ^(cached^)%R%
 )
 
 REM ─────────────────────────────────────────────────────────────────────────
@@ -131,6 +156,34 @@ docker run -it --rm ^
   !PORT_FLAGS! ^
   %IMAGE%
 exit /b %errorlevel%
+
+REM ─────────────────────────────────────────────────────────────────────────
+REM  Subroutine: fetch_and_load <version-tag>
+REM    Uses cached image if present, else downloads that version's tarball
+REM    and loads it. Returns errorlevel 1 if the download fails.
+REM ─────────────────────────────────────────────────────────────────────────
+:fetch_and_load
+set "FAL_VER=%~1"
+set "FAL_VTAG=%FAL_VER:v=%"
+set "FAL_IMAGE=roxit-masterclass:%FAL_VTAG%-%ARCH%"
+if defined ROXIT_IMAGE set "FAL_IMAGE=%ROXIT_IMAGE%"
+docker image inspect "%FAL_IMAGE%" >nul 2>&1
+if not errorlevel 1 (
+  set "IMAGE=%FAL_IMAGE%"
+  echo   %LM%v%R%  Sandbox image                 %D%%FAL_IMAGE% ^(cached^)%R%
+  exit /b 0
+)
+set "FAL_URL=%RELEASES_BASE%/download/%FAL_VER%"
+if defined ROXIT_RELEASE_URL set "FAL_URL=%ROXIT_RELEASE_URL%"
+echo   %AC%o%R%  Downloading sandbox image    %D%%FAL_VER% - ~420 MB - one time only%R%
+curl -fL --progress-bar "%FAL_URL%/roxit-masterclass-%ARCH%.tar.gz" -o "%TARFILE%"
+if errorlevel 1 exit /b 1
+echo   %AC%o%R%  Loading image into Docker
+docker load -i "%TARFILE%" >nul
+del "%TARFILE%" >nul 2>&1
+set "IMAGE=%FAL_IMAGE%"
+echo   %LM%v%R%  Sandbox image                 %D%%FAL_IMAGE% ^(loaded^)%R%
+exit /b 0
 
 REM ─────────────────────────────────────────────────────────────────────────
 REM  Subroutine: allocate_port <desired>

@@ -19,7 +19,7 @@ ENV COREPACK_ENABLE_DOWNLOAD_FALLBACK=0
 # Anything project-local is installed on-demand via pnpm/npx; this is the
 # baseline so first-runs and offline classrooms work without surprises.
 RUN npm install -g \
-      @anthropic-ai/claude-code@2.1.143 \
+      @anthropic-ai/claude-code@latest \
       vercel \
       convex \
       tsx \
@@ -61,8 +61,17 @@ ENV CLAUDE_CODE_ENABLE_TELEMETRY=1 \
     DISABLE_ERROR_REPORTING=1 \
     BASH_DEFAULT_TIMEOUT_MS=300000
 
+# Dev servers bind 127.0.0.1 by default, unreachable from host despite -p flags.
+# Fix: .bashrc wraps next/pnpm/npm/npx to inject --hostname 0.0.0.0.
+# BASH_ENV (below) ensures the wrappers load in non-interactive shells too
+# (e.g. when Claude Code spawns commands).
+COPY --chown=dev:dev bashrc-docker /home/dev/.bashrc
+
+EXPOSE 3000 3001 8080
+
 USER dev
 WORKDIR /workspace
-ENV HOME=/home/dev
+ENV HOME=/home/dev \
+    BASH_ENV=/home/dev/.bashrc
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
