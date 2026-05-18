@@ -71,7 +71,6 @@ Plugins extend Claude's capabilities beyond skills. These are pre-installed and 
 
 | Plugin | What it adds |
 |---|---|
-| **superpowers** | The framework that makes all skills discoverable. Foundation layer — required for everything else. |
 | **frontend-design** | Layout systems, visual hierarchy, composition principles. Use `/frontend-design` for design guidance. |
 | **impeccable** | Agency-tier UI quality. Sub-skills: `/impeccable:typeset`, `/impeccable:colorize`, `/impeccable:layout`, `/impeccable:animate`, `/impeccable:polish`. |
 | **code-review** | Structured multi-dimension code review — architecture, security, performance, test coverage. |
@@ -96,6 +95,36 @@ Plugins extend Claude's capabilities beyond skills. These are pre-installed and 
 | `/impeccable:polish` | Final QA pass — finds cheap-looking details and fixes them |
 | `/impeccable:audit` | Full design audit across all dimensions |
 | `/impeccable:critique` | Honest critique of a design with specific improvement suggestions |
+
+---
+
+## Create your own
+
+### Custom skills
+
+Skills are markdown files that teach Claude how to do something. Create them inside your project:
+
+```
+/workspace/my-project/.claude/skills/my-skill.md
+```
+
+Or use the `/build-a-skill` command to create one interactively. Skills in your project directory are automatically available when you `cd` into that project. They persist in `~/roxit-workshop` on your laptop.
+
+### Custom plugins
+
+Install plugins from the marketplace:
+
+```
+/install frontend-design
+```
+
+Or install from a GitHub repo:
+
+```
+/install github:username/repo-name
+```
+
+Installed plugins survive container restarts — they're stored in a persistent volume and merged with the pre-installed set on each boot.
 
 ---
 
