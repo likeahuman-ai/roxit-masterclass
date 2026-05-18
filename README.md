@@ -203,6 +203,28 @@ Anything you create in `/workspace` (inside the sandbox) appears in `~/roxit-wor
 
 ---
 
+## 🔄 Updating to a new version
+
+### v0.5+ launchers (self-updating)
+
+From v0.5 onwards, **the launcher auto-updates.** When you double-click `Roxit.command` / `.bat` / `.sh`, it checks GitHub for the latest release, downloads the new image if needed, and runs it. You don't need to do anything — just run the launcher as usual.
+
+Your workspace (`~/roxit-workshop`) and Claude Code login are preserved across updates.
+
+### Older launchers (v0.3, v0.4)
+
+Launchers from v0.3 and v0.4 have a hardcoded image version — they will **not** auto-update. To upgrade:
+
+1. **[Download the latest `roxit-masterclass.zip`](https://github.com/likeahuman-ai/roxit-releases/releases/latest)**
+2. Unzip it (can be a new folder — the launcher finds your existing workspace)
+3. Double-click the new `Roxit.command` / `.bat` / `.sh`
+
+The new launcher downloads the latest image on first run (~420 MB, one time). Your existing workspace at `~/roxit-workshop` is untouched — all your files and projects are still there.
+
+> **Tip:** you can delete the old zip/folder after upgrading. The old Docker image (`0.3-arm64` / `0.4-arm64`) can be removed to free ~1.2 GB: `docker rmi roxit-masterclass:0.3-arm64` (adjust tag for your version/arch).
+
+---
+
 ## 🔐 For IT / security
 
 Sandbox runs as a non-root `dev` user. Network egress is unrestricted by default; restrictions layer on via managed settings without an image rebuild.
