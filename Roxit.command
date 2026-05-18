@@ -5,7 +5,15 @@ set -e
 # ─────────────────────────────────────────────────────────────────────────────
 #  Configuration
 # ─────────────────────────────────────────────────────────────────────────────
-RELEASE_URL="${ROXIT_RELEASE_URL:-https://github.com/likeahuman-ai/roxit-releases/releases/download/v0.4}"
+# Self-updating launcher: on each run we ask GitHub which release is current
+# (the "latest" marker, maintained automatically by `gh release create
+# --latest`). An OLD launcher file therefore still pulls the NEWEST image —
+# participants never need a fresh zip. If the network is down (offline
+# classroom) or GitHub is unreachable we fall back to FALLBACK_VERSION so the
+# workshop still runs.
+RELEASES_BASE="https://github.com/likeahuman-ai/roxit-releases/releases"
+LATEST_API="https://api.github.com/repos/likeahuman-ai/roxit-releases/releases/latest"
+FALLBACK_VERSION="v0.5"
 WORKDIR_HOST="$HOME/roxit-workshop"
 CLAUDE_VOLUME="roxit-claude-data"
 DESIRED_PORTS=(3000 3001 8080)
@@ -15,7 +23,24 @@ case "$(uname -m)" in
   arm64)        ARCH=arm64 ;;
   *)            ARCH=amd64 ;;
 esac
-IMAGE="${ROXIT_IMAGE:-roxit-masterclass:0.4-${ARCH}}"
+
+# Resolve the active version. Explicit overrides win (workshop-day pinning);
+# otherwise ask GitHub for the latest release tag; otherwise fall back to the
+# baked-in baseline. We grep tag_name rather than add a jq dependency.
+resolve_version() {
+  if [ -n "$ROXIT_VERSION" ]; then echo "$ROXIT_VERSION"; return; fi
+  local v
+  v="$(curl -fsSL --max-time 5 "$LATEST_API" 2>/dev/null \
+        | grep -m1 '"tag_name"' \
+        | sed -E 's/.*"tag_name"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')"
+  case "$v" in
+    v[0-9]*) echo "$v" ;;
+    *)       echo "$FALLBACK_VERSION" ;;
+  esac
+}
+VERSION="$(resolve_version)"
+RELEASE_URL="${ROXIT_RELEASE_URL:-$RELEASES_BASE/download/$VERSION}"
+IMAGE="${ROXIT_IMAGE:-roxit-masterclass:${VERSION#v}-${ARCH}}"
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  Visuals
@@ -84,21 +109,47 @@ if ! docker info >/dev/null 2>&1; then
 fi
 step_ok "Docker daemon" "engine running"
 
-# 3. Image present?
-if docker image inspect "$IMAGE" >/dev/null 2>&1; then
-  step_ok "Sandbox image" "$IMAGE (cached)"
-else
-  step_run "Downloading sandbox image" "~420 MB · one time only"
-  TARFILE="$TMPDIR/roxit-${ARCH}.tar.gz"
-  if ! curl -fL --progress-bar "$RELEASE_URL/roxit-masterclass-${ARCH}.tar.gz" -o "$TARFILE"; then
-    step_err "Download failed" "check network, retry"
-    osascript -e 'display dialog "Kon de Roxit-image niet downloaden. Check je internet en probeer opnieuw, of vraag de begeleider om hulp." buttons {"OK"} default button 1 with icon caution' >/dev/null 2>&1 || true
-    exit 1
+# 3. Image present? Try the resolved version, then fall back.
+#
+# Download strategy, in order:
+#   1. cached image for the resolved version           -> use it
+#   2. download the resolved version's tarball          -> load it
+#   3. resolved != fallback: cached fallback image       -> use it
+#   4. resolved != fallback: download fallback tarball    -> load it
+#   5. nothing worked                                    -> error out
+# Steps 3-4 guard against a half-published release (the "latest" marker
+# flipped before tarballs finished uploading) bricking every laptop.
+TARFILE="$TMPDIR/roxit-${ARCH}.tar.gz"
+
+fetch_and_load() {  # $1 = version tag (e.g. v0.5)
+  local ver="$1"
+  local img="roxit-masterclass:${ver#v}-${ARCH}"
+  [ -n "$ROXIT_IMAGE" ] && img="$ROXIT_IMAGE"
+  if docker image inspect "$img" >/dev/null 2>&1; then
+    IMAGE="$img"; step_ok "Sandbox image" "$IMAGE (cached)"; return 0
   fi
+  local url="${ROXIT_RELEASE_URL:-$RELEASES_BASE/download/$ver}"
+  step_run "Downloading sandbox image" "$ver · ~420 MB · one time only"
+  curl -fL --progress-bar "$url/roxit-masterclass-${ARCH}.tar.gz" -o "$TARFILE" || return 1
   step_run "Loading image into Docker"
   docker load -i "$TARFILE" >/dev/null
   rm -f "$TARFILE"
-  step_ok "Sandbox image" "$IMAGE (loaded)"
+  IMAGE="$img"; step_ok "Sandbox image" "$IMAGE (loaded)"
+}
+
+download_failed() {
+  step_err "Download failed" "check network, retry"
+  osascript -e 'display dialog "Kon de Roxit-image niet downloaden. Check je internet en probeer opnieuw, of vraag de begeleider om hulp." buttons {"OK"} default button 1 with icon caution' >/dev/null 2>&1 || true
+  exit 1
+}
+
+if ! fetch_and_load "$VERSION"; then
+  if [ "$VERSION" != "$FALLBACK_VERSION" ]; then
+    step_warn "Latest unavailable" "falling back to $FALLBACK_VERSION"
+    fetch_and_load "$FALLBACK_VERSION" || download_failed
+  else
+    download_failed
+  fi
 fi
 
 # 4. Workspace + Claude token volume

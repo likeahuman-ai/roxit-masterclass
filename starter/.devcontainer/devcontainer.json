@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
   "name": "Roxit Masterclass",
-  "image": "ghcr.io/likeahuman-ai/roxit-masterclass:0.3",
+  "image": "ghcr.io/likeahuman-ai/roxit-masterclass:latest",
 
   "remoteUser": "dev",
   "workspaceFolder": "/workspace",
