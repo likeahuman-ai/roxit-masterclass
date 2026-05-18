@@ -79,6 +79,11 @@ Plugins extend Claude's capabilities beyond skills. These are pre-installed and 
 | **gsap-skills** | GSAP animation patterns — timelines, ScrollTrigger, SplitText. Use `/gsap` for animation help. |
 | **font-hunt** | Typography and font selection. Use when you need to pick the right font for a UI. |
 | **branding-pitch** | AI-assisted branding and pitch deck creation. |
+| **development** | Full dev pipeline — plan a PRD, break into tickets, build with subagents, multi-agent code review, fix findings. |
+| **development-advanced** | Advanced dev pipeline with architectural decision records and living specs. |
+| **orientation** | Discover your skill level and get routed to the right starting point — guided survey + track recommendation. |
+| **guided-build** | Build your first project with AI in one session — compressed plan-to-deploy for beginners. |
+| **coding-standards** | Interview-based coding standards — generates personalised rules and enforces with pre-commit hooks. |
 
 ---
 

@@ -50,7 +50,6 @@ sync_plugin() {
     "$src/" "$dst/"
 }
 
-sync_plugin "claude-plugins-official/superpowers/5.1.0"
 sync_plugin "claude-plugins-official/frontend-design/ef9da693e38f"
 sync_plugin "claude-plugins-official/code-review/ef9da693e38f"
 sync_plugin "claude-plugins-official/code-simplifier/1.0.0"
@@ -59,6 +58,11 @@ sync_plugin "gsap-skills/gsap-skills/1.0.0"
 sync_plugin "impeccable/impeccable/2.1.1"
 sync_plugin "likeahuman/branding-pitch/1.3.0"
 sync_plugin "likeahuman/font-hunt/1.1.1"
+sync_plugin "likeahuman/development/4.5.0"
+sync_plugin "likeahuman/development-advanced/0.3.0"
+sync_plugin "likeahuman/orientation/1.1.0"
+sync_plugin "likeahuman/guided-build/3.0.0"
+sync_plugin "likeahuman/coding-standards/1.0.0"
 
 # Generate installed_plugins.json with container-side paths
 python3 - "$DEST" "$CONTAINER_BASE" "$NOW" <<'PYEOF'
@@ -67,7 +71,6 @@ import json, os, sys
 dest, container_base, now = sys.argv[1], sys.argv[2], sys.argv[3]
 
 entries = [
-  ("superpowers@claude-plugins-official",    "claude-plugins-official/superpowers/5.1.0",          "5.1.0",        "8ea39819eed74fe2a0338e71789f06b30e953041"),
   ("frontend-design@claude-plugins-official","claude-plugins-official/frontend-design/ef9da693e38f","ef9da693e38f", "13b3a7c5827a08227fb99b87958b427a11bf8413"),
   ("code-review@claude-plugins-official",    "claude-plugins-official/code-review/ef9da693e38f",    "ef9da693e38f", "13b3a7c5827a08227fb99b87958b427a11bf8413"),
   ("code-simplifier@claude-plugins-official","claude-plugins-official/code-simplifier/1.0.0",       "1.0.0",        "13b3a7c5827a08227fb99b87958b427a11bf8413"),
@@ -76,6 +79,11 @@ entries = [
   ("impeccable@impeccable",                  "impeccable/impeccable/2.1.1",                         "2.1.1",        "00d485659af82982aef0328d0419c49a2716d123"),
   ("branding-pitch@likeahuman",              "likeahuman/branding-pitch/1.3.0",                     "1.3.0",        ""),
   ("font-hunt@likeahuman",                   "likeahuman/font-hunt/1.1.1",                          "1.1.1",        ""),
+  ("development@likeahuman",                 "likeahuman/development/4.5.0",                         "4.5.0",        ""),
+  ("development-advanced@likeahuman",        "likeahuman/development-advanced/0.3.0",                "0.3.0",        ""),
+  ("orientation@likeahuman",                 "likeahuman/orientation/1.1.0",                          "1.1.0",        ""),
+  ("guided-build@likeahuman",               "likeahuman/guided-build/3.0.0",                         "3.0.0",        ""),
+  ("coding-standards@likeahuman",            "likeahuman/coding-standards/1.0.0",                    "1.0.0",        ""),
 ]
 
 plugins = {}

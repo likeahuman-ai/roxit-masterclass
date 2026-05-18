@@ -34,7 +34,12 @@
     "skill-creator@claude-plugins-official": true,
     "gsap-skills@gsap-skills": true,
     "branding-pitch@likeahuman": true,
-    "font-hunt@likeahuman": true
+    "font-hunt@likeahuman": true,
+    "development@likeahuman": true,
+    "development-advanced@likeahuman": true,
+    "orientation@likeahuman": true,
+    "guided-build@likeahuman": true,
+    "coding-standards@likeahuman": true
   },
   "extraKnownMarketplaces": {
     "gsap-skills": {
