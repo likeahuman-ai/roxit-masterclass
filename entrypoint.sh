@@ -6,6 +6,14 @@ set -e
 # exec bash (used by docker run -it from Roxit.command launchers).
 MODE="${1:-shell}"
 
+# Sync settings + plugins from image defaults into the volume.
+# The volume mount shadows /home/dev/.claude, so baked-in files are invisible
+# unless we copy them in. Auth tokens in the volume are preserved.
+cp -f /home/dev/.claude-defaults/settings.json /home/dev/.claude/settings.json 2>/dev/null || true
+mkdir -p /home/dev/.claude/plugins
+cp -f /home/dev/.claude-defaults/plugins/installed_plugins.json /home/dev/.claude/plugins/installed_plugins.json 2>/dev/null || true
+cp -rf /home/dev/.claude-defaults/plugins/cache /home/dev/.claude/plugins/ 2>/dev/null || true
+
 if [ "$MODE" = "shell" ]; then
   # First-run: seed the workspace from the starter (don't overwrite existing work)
   if [ -z "$(ls -A /workspace 2>/dev/null)" ]; then

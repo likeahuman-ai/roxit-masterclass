@@ -26,8 +26,8 @@ RUN npm install -g \
       typescript \
       create-next-app
 
-RUN useradd -m -s /bin/bash dev && mkdir -p /workspace /workspace-starter /home/dev/.claude /etc/claude-code \
-    && chown -R dev:dev /workspace /workspace-starter /home/dev/.claude \
+RUN useradd -m -s /bin/bash dev && mkdir -p /workspace /workspace-starter /home/dev/.claude /home/dev/.claude-defaults /etc/claude-code \
+    && chown -R dev:dev /workspace /workspace-starter /home/dev/.claude /home/dev/.claude-defaults \
     && git config --system init.defaultBranch main \
     && git config --system user.email "workshop@roxit.nl" \
     && git config --system user.name "Roxit Workshop"
@@ -36,16 +36,13 @@ COPY --chown=dev:dev starter/ /workspace-starter/
 COPY --chown=dev:dev entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Bake plugin cache so the image works offline (no download on first launch).
-# prepare-plugins.sh generates this snapshot from the host's plugin cache.
-# Run `bash prepare-plugins.sh` before `docker build` to refresh plugin versions.
-COPY --chown=dev:dev plugins-snapshot/cache/ /home/dev/.claude/plugins/cache/
-COPY --chown=dev:dev plugins-snapshot/installed_plugins.json /home/dev/.claude/plugins/installed_plugins.json
-
-# User-level Claude settings apply when participants cd into sub-projects
-# (project-level settings only kick in inside /workspace).
-RUN cp /workspace-starter/.claude/settings.json /home/dev/.claude/settings.json \
-    && chown dev:dev /home/dev/.claude/settings.json
+# Bake plugin cache + settings into a defaults directory that the volume
+# mount can't shadow. The entrypoint syncs these into /home/dev/.claude
+# on every boot, preserving auth tokens from the volume.
+COPY --chown=dev:dev plugins-snapshot/cache/ /home/dev/.claude-defaults/plugins/cache/
+COPY --chown=dev:dev plugins-snapshot/installed_plugins.json /home/dev/.claude-defaults/plugins/installed_plugins.json
+RUN cp /workspace-starter/.claude/settings.json /home/dev/.claude-defaults/settings.json \
+    && chown dev:dev /home/dev/.claude-defaults/settings.json
 
 # Defaults: telemetry ON so Visma can audit Claude Code usage across the organisation.
 # Console exporter by default; IT redirects to their OTLP collector by mounting
