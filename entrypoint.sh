@@ -11,8 +11,18 @@ MODE="${1:-shell}"
 # unless we copy them in. Auth tokens and user-installed plugins are preserved.
 mkdir -p /home/dev/.claude/plugins/cache
 
-# Settings: always overwrite (workshop defaults are authoritative)
-cp -f /home/dev/.claude-defaults/settings.json /home/dev/.claude/settings.json 2>/dev/null || true
+# Settings: workshop defaults as base, user customisations layered on top.
+# First boot: copy defaults. Subsequent boots: merge (user wins on conflicts).
+if [ -f /home/dev/.claude/settings.json ]; then
+  jq -s '.[0] * .[1]' \
+    /home/dev/.claude-defaults/settings.json \
+    /home/dev/.claude/settings.json \
+    > /tmp/merged-settings.json 2>/dev/null \
+    && mv /tmp/merged-settings.json /home/dev/.claude/settings.json \
+    || true
+else
+  cp -f /home/dev/.claude-defaults/settings.json /home/dev/.claude/settings.json 2>/dev/null || true
+fi
 
 # Plugin cache: copy baked-in plugins without overwriting user-installed ones
 cp -rn /home/dev/.claude-defaults/plugins/cache/* /home/dev/.claude/plugins/cache/ 2>/dev/null || true
