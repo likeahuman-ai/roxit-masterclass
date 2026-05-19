@@ -219,11 +219,17 @@ printf '  %sLaunching sandbox...%s   %s(Ctrl+D to exit)%s\n\n' "$B" "$R" "$D" "$
 # Clean up stale container from a previous force-killed session.
 docker rm -f roxit-masterclass >/dev/null 2>&1 || true
 
+# Map host UID/GID so bind-mounted files are owned by the current user.
+# Docker Desktop (macOS/Windows) does this transparently; native Linux does not.
+HOST_UID="$(id -u)"
+HOST_GID="$(id -g)"
+
 exec docker run -it --rm \
   -v "$WORKDIR_HOST:/workspace" \
   -v "$CLAUDE_VOLUME:/home/dev/.claude" \
   -e "ROXIT_HOST_WORKSHOP=$WORKDIR_HOST" \
   -e "ROXIT_HOST_OS=Linux" \
+  --user "$HOST_UID:$HOST_GID" \
   "${PORT_FLAGS[@]}" \
   --name "roxit-masterclass" \
   "$IMAGE"

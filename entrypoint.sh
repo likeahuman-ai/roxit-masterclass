@@ -112,6 +112,8 @@ cat <<EOF
   ${AC}◆${R}  ${B}${CR}DEV SERVER${R}
      ${GY}localhost:3000  ·  3001  ·  8080${R}   ${D}open in your browser${R}
      ${D}Servers auto-bind 0.0.0.0 so ports are reachable from your host${R}
+     ${YE}!${R} ${D}Run dev servers here, not in VS Code's terminal${R}
+     ${D}  node_modules contains Linux binaries — they won't work on macOS/Windows${R}
 EOF
 
 # Detect if ports are actually forwarded by checking ROXIT_HOST_OS (set by
