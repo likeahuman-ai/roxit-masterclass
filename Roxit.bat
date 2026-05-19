@@ -1,6 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 title Roxit Masterclass
+set "SCRIPT_DIR=%~dp0"
 
 REM ─────────────────────────────────────────────────────────────────────────
 REM  Configuration
@@ -12,7 +13,7 @@ REM fall back to FALLBACK_VERSION so the workshop still runs.
 set "RELEASES_BASE=https://github.com/likeahuman-ai/roxit-releases/releases"
 set "LATEST_API=https://api.github.com/repos/likeahuman-ai/roxit-releases/releases/latest"
 set "FALLBACK_VERSION=v0.5"
-set "WORKDIR_HOST=%USERPROFILE%\roxit-workshop"
+set "WORKDIR_HOST=%USERPROFILE%\Desktop\roxit-workshop"
 set "CLAUDE_VOLUME=roxit-claude-data"
 set ARCH=amd64
 if /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" set ARCH=arm64
@@ -121,7 +122,21 @@ REM  4. Workspace + Claude token volume
 REM ─────────────────────────────────────────────────────────────────────────
 if not exist "%WORKDIR_HOST%" mkdir "%WORKDIR_HOST%"
 docker volume create %CLAUDE_VOLUME% >nul
-echo   %LM%v%R%  Workspace                     %D%%WORKDIR_HOST%%R%
+
+REM Seed workspace from bundled starter\ on first run (host-side).
+REM The image entrypoint has a fallback if this is skipped.
+set "WS_EMPTY=1"
+for /F %%f in ('dir /b "%WORKDIR_HOST%" 2^>nul') do set "WS_EMPTY=0"
+if "!WS_EMPTY!"=="1" (
+  if exist "%SCRIPT_DIR%starter\" (
+    xcopy /s /e /h /q /y "%SCRIPT_DIR%starter\*" "%WORKDIR_HOST%\" >nul 2>&1
+    echo   %LM%v%R%  Workspace seeded              %D%%WORKDIR_HOST%%R%
+  ) else (
+    echo   %LM%v%R%  Workspace                     %D%%WORKDIR_HOST%%R%
+  )
+) else (
+  echo   %LM%v%R%  Workspace                     %D%%WORKDIR_HOST%%R%
+)
 
 REM ─────────────────────────────────────────────────────────────────────────
 REM  5. Dynamic port allocation
@@ -148,12 +163,16 @@ echo.
 echo   %B%Launching sandbox...%R%   %D%^(Ctrl+D to exit^)%R%
 echo.
 
+REM Clean up stale container from a previous force-killed session.
+docker rm -f roxit-masterclass >nul 2>&1
+
 docker run -it --rm ^
   -v "%WORKDIR_HOST%:/workspace" ^
   -v "%CLAUDE_VOLUME%:/home/dev/.claude" ^
   -e "ROXIT_HOST_WORKSHOP=%WORKDIR_HOST%" ^
   -e "ROXIT_HOST_OS=Windows" ^
   !PORT_FLAGS! ^
+  --name "roxit-masterclass" ^
   %IMAGE%
 exit /b %errorlevel%
 

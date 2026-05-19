@@ -110,9 +110,9 @@ You're ready. ✨
 
 ---
 
-### (Optional) View your files in VS Code
+### Your files
 
-Your files live at `~/roxit-workshop` (macOS/Linux) or `C:\Users\<name>\roxit-workshop` (Windows). You can open that folder in VS Code, Finder, or Explorer like any normal folder to browse and read files. No extensions needed.
+Your workspace folder appears on your **Desktop**: `roxit-workshop`. Open it with any editor you like (VS Code, Cursor, Zed, Sublime, Notepad++ -- anything works). Files you edit there show up inside the sandbox at `/workspace` and vice versa.
 
 ---
 
@@ -193,13 +193,13 @@ Plus pre-installed Claude Code plugins from the LikeAHuman marketplace: `brandin
 ## 🗂 How files work
 
 ```
-Your laptop                          Inside the sandbox
-─────────────                        ──────────────────
-~/roxit-workshop/         ←──→       /workspace/
-  └─ my-project/                       └─ my-project/
+Your laptop                              Inside the sandbox
+─────────────                            ──────────────────
+~/Desktop/roxit-workshop/   ←──→       /workspace/
+  └─ my-project/                           └─ my-project/
 ```
 
-Anything you create in `/workspace` (inside the sandbox) appears in `~/roxit-workshop/` (on your laptop). Files survive container restarts — **your work is never lost**.
+Anything you create in `/workspace` (inside the sandbox) appears in the `roxit-workshop` folder on your **Desktop** and vice versa. Open it with any editor. Files survive container restarts — **your work is never lost**.
 
 ---
 
@@ -209,7 +209,7 @@ Anything you create in `/workspace` (inside the sandbox) appears in `~/roxit-wor
 
 From v0.5 onwards, **the launcher auto-updates.** When you double-click `Roxit.command` / `.bat` / `.sh`, it checks GitHub for the latest release, downloads the new image if needed, and runs it. You don't need to do anything — just run the launcher as usual.
 
-Your workspace (`~/roxit-workshop`) and Claude Code login are preserved across updates.
+Your workspace (`~/Desktop/roxit-workshop`) and Claude Code login are preserved across updates.
 
 ### Older launchers (v0.3, v0.4)
 
@@ -219,7 +219,7 @@ Launchers from v0.3 and v0.4 have a hardcoded image version — they will **not*
 2. Unzip it (can be a new folder — the launcher finds your existing workspace)
 3. Double-click the new `Roxit.command` / `.bat` / `.sh`
 
-The new launcher downloads the latest image on first run (~420 MB, one time). Your existing workspace at `~/roxit-workshop` is untouched — all your files and projects are still there.
+The new launcher downloads the latest image on first run (~420 MB, one time). Your existing workspace at `~/Desktop/roxit-workshop` is untouched — all your files and projects are still there.
 
 > **Tip:** you can delete the old zip/folder after upgrading. The old Docker image (`0.3-arm64` / `0.4-arm64`) can be removed to free ~1.2 GB: `docker rmi roxit-masterclass:0.3-arm64` (adjust tag for your version/arch).
 

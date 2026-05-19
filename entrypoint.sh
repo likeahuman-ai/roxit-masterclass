@@ -95,7 +95,7 @@ cat <<EOF
 EOF
 
 if [ -n "$OPEN_CMD" ]; then
-  printf '     %sopen%s     %s%s%s\n' "$D" "$R" "$LM" "$OPEN_CMD" "$R"
+  printf '     %sopen%s       %s%s%s\n' "$D" "$R" "$LM" "$OPEN_CMD" "$R"
 fi
 
 cat <<EOF

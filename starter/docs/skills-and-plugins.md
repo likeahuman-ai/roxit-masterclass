@@ -113,7 +113,7 @@ Skills are markdown files that teach Claude how to do something. Create them ins
 /workspace/my-project/.claude/skills/my-skill.md
 ```
 
-Or use the `/build-a-skill` command to create one interactively. Skills in your project directory are automatically available when you `cd` into that project. They persist in `~/roxit-workshop` on your laptop.
+Or use the `/build-a-skill` command to create one interactively. Skills in your project directory are automatically available when you `cd` into that project. They persist in `~/Desktop/roxit-workshop` on your laptop.
 
 ### Custom plugins
 

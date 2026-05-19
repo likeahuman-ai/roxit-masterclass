@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workspace openen - Roxit Masterclass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #143F26;
+    --accent: #21683E;
+    --lime: #26AD6A;
+    --lime-soft: #D4F5E2;
+    --bg: #FEF9F0;
+    --surface: #FFFFFF;
+    --surface-muted: #F5F0E8;
+    --dark: #1C1D24;
+    --text: rgba(28, 29, 36, 0.78);
+    --text-dim: rgba(28, 29, 36, 0.45);
+    --purple: #9388FE;
+    --purple-soft: #EFEFFF;
+    --border: rgba(20, 63, 38, 0.10);
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--forest);
+    background: var(--lime-soft);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
+
+  .flow {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+
+  .flow-title {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flow-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 12px 0;
+  }
+
+  .flow-step + .flow-step {
+    border-top: 1px solid var(--border);
+  }
+
+  .flow-num {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    background: var(--lime);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flow-step p {
+    font-size: 15px;
+    padding-top: 3px;
+  }
+
+  .auto-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--lime-soft);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--surface-muted);
+    padding: 2px 8px;
+    border-radius: 6px;
+    color: var(--forest);
+  }
+
+  .diagram {
+    margin: 32px 0;
+    padding: 24px;
+    background: var(--dark);
+    border-radius: 14px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.8;
+    color: #e2e8f0;
+    overflow-x: auto;
+  }
+
+  .diagram .label {
+    color: var(--lime);
+    font-weight: 500;
+  }
+  .diagram .arrow { color: #94a3b8; }
+  .diagram .dim { color: #64748b; }
+  .diagram .highlight { color: #fbbf24; }
+
+  .tip {
+    margin-top: 32px;
+    padding: 20px 24px;
+    background: var(--purple-soft);
+    border-radius: 14px;
+    border-left: 4px solid var(--purple);
+  }
+  .tip-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+    margin-bottom: 4px;
+  }
+  .tip p { font-size: 14px; }
+
+  .warn {
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: #FFF8E1;
+    border-radius: 14px;
+    border-left: 4px solid #F59E0B;
+  }
+  .warn-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #D97706;
+    margin-bottom: 4px;
+  }
+  .warn p { font-size: 14px; }
+
+  .path-table {
+    width: 100%;
+    margin-top: 16px;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .path-table th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--dark);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .path-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 32px 16px 64px; }
+    .flow { padding: 20px; }
+    h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="badge">Roxit Masterclass</div>
+  <h1>Hoe werkt de workspace?</h1>
+  <p class="subtitle">De launcher opent automatisch VS Code. Hier staat hoe alles samenwerkt.</p>
+
+  <!-- How it works diagram -->
+  <div class="diagram">
+    <span class="label">Jouw laptop</span> <span class="arrow">          </span> <span class="label">Docker container</span><br>
+    <span class="dim">-------------------------------   --------------------------------</span><br>
+    <span class="highlight">~/Desktop/roxit-workshop/</span> <span class="arrow">  &lt;---sync---&gt;</span>  <span class="highlight">/workspace/</span><br>
+    <span class="dim">  CLAUDE.md                         CLAUDE.md</span><br>
+    <span class="dim">  src/                               src/</span><br>
+    <span class="dim">  package.json                       package.json</span><br>
+    <br>
+    <span class="label">VS Code</span> <span class="dim">bewerkt links</span> <span class="arrow">  |</span>  <span class="label">claude</span> <span class="dim">draait rechts</span><br>
+    <span class="dim">Dezelfde bestanden, altijd in sync.</span>
+  </div>
+
+  <!-- Main flow: what happens automatically -->
+  <div class="flow">
+    <div class="flow-title">Wat gebeurt er als je de launcher start?</div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <p>Dubbelklik <code>Roxit.command</code> (Mac) of <code>Roxit.bat</code> (Windows)</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <p>Launcher maakt <code>~/Desktop/roxit-workshop</code> aan en vult het met de starterbestanden <span class="auto-badge">auto</span></p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <p>VS Code opent de workspace <span class="auto-badge">auto</span></p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <p>Docker container start met dezelfde map als <code>/workspace</code> <span class="auto-badge">auto</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paths per OS -->
+  <h2>Waar staan je bestanden?</h2>
+  <table class="path-table">
+    <tr><th>OS</th><th>Pad op je laptop</th></tr>
+    <tr><td>Mac / Linux</td><td><code>~/Desktop/roxit-workshop</code></td></tr>
+    <tr><td>Windows</td><td><code>C:\Users\&lt;jouw-naam&gt;\Desktop\roxit-workshop</code></td></tr>
+  </table>
+
+  <!-- Two windows explanation -->
+  <h2>Twee vensters, een project</h2>
+  <div class="flow">
+    <div class="flow-title">Hoe je werkt</div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num" style="background: var(--purple);">A</div>
+        <p><strong>VS Code</strong> - bestanden bekijken en bewerken. Hier schrijf je code, bekijk je de structuur, en werk je met je editor tooling.</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num" style="background: var(--forest);">B</div>
+        <p><strong>Terminal (Roxit venster)</strong> - commando's uitvoeren. Hier draai je <code>claude</code>, <code>pnpm dev</code>, <code>vercel deploy</code>, etc.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn">
+    <div class="warn-label">Belangrijk</div>
+    <p>De VS Code terminal opent op <strong>je laptop</strong>, niet in de container. <code>claude</code> en <code>pnpm</code> werken daar niet. Gebruik altijd het <strong>Roxit terminal-venster</strong> voor commando's.</p>
+  </div>
+
+  <div class="tip">
+    <div class="tip-label">VS Code niet geinstalleerd?</div>
+    <p>Geen probleem - de launcher opent dan Finder (Mac) of Explorer (Windows). Je kunt bestanden gewoon bekijken en bewerken met elke editor. De Roxit terminal is waar je <code>claude</code> draait.</p>
+  </div>
+
+  <!-- Troubleshooting -->
+  <h2>VS Code opende niet automatisch?</h2>
+  <div class="flow">
+    <div class="flow-title">Handmatig openen</div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <p>Open VS Code</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <p><code>File</code> &gt; <code>Open Folder</code></p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <p>Navigeer naar <code>~/Desktop/roxit-workshop</code> (Mac) of <code>C:\Users\&lt;naam&gt;\Desktop\roxit-workshop</code> (Windows)</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

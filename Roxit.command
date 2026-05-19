@@ -2,6 +2,8 @@
 # Roxit Masterclass launcher — double-click on macOS to start.
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 # ─────────────────────────────────────────────────────────────────────────────
 #  Configuration
 # ─────────────────────────────────────────────────────────────────────────────
@@ -14,7 +16,7 @@ set -e
 RELEASES_BASE="https://github.com/likeahuman-ai/roxit-releases/releases"
 LATEST_API="https://api.github.com/repos/likeahuman-ai/roxit-releases/releases/latest"
 FALLBACK_VERSION="v0.5"
-WORKDIR_HOST="$HOME/roxit-workshop"
+WORKDIR_HOST="$HOME/Desktop/roxit-workshop"
 CLAUDE_VOLUME="roxit-claude-data"
 DESIRED_PORTS=(3000 3001 8080)
 
@@ -155,7 +157,15 @@ fi
 # 4. Workspace + Claude token volume
 mkdir -p "$WORKDIR_HOST"
 docker volume create "$CLAUDE_VOLUME" >/dev/null
-step_ok "Workspace" "$WORKDIR_HOST"
+
+# Seed workspace from bundled starter/ on first run (host-side, before
+# container boots). The image entrypoint has a fallback if this is skipped.
+if [ -z "$(ls -A "$WORKDIR_HOST" 2>/dev/null)" ] && [ -d "$SCRIPT_DIR/starter" ]; then
+  cp -r "$SCRIPT_DIR/starter/." "$WORKDIR_HOST/"
+  step_ok "Workspace seeded" "$WORKDIR_HOST"
+else
+  step_ok "Workspace" "$WORKDIR_HOST"
+fi
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  Dynamic port allocation
@@ -217,11 +227,14 @@ fi
 divider
 printf '  %sLaunching sandbox...%s   %s(Ctrl+D to exit)%s\n\n' "$B" "$R" "$D" "$R"
 
+# Clean up stale container from a previous force-killed session.
+docker rm -f roxit-masterclass >/dev/null 2>&1 || true
+
 exec docker run -it --rm \
   -v "$WORKDIR_HOST:/workspace" \
   -v "$CLAUDE_VOLUME:/home/dev/.claude" \
   -e "ROXIT_HOST_WORKSHOP=$WORKDIR_HOST" \
   -e "ROXIT_HOST_OS=macOS" \
   "${PORT_FLAGS[@]}" \
-  --name "roxit-$$" \
+  --name "roxit-masterclass" \
   "$IMAGE"

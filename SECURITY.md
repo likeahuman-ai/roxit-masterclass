@@ -6,7 +6,7 @@ For Roxit / Visma IT contacts evaluating this sandbox before rollout.
 
 - **Runs as a non-root user** (`dev`, UID 1000) inside Docker. No `sudo`, no access to the host kernel beyond what Docker namespaces allow.
 - **Ephemeral container** (`docker run --rm`). State lives in two places:
-  - Mounted host folder (`~/roxit-workshop/` on macOS/Linux, `%USERPROFILE%\roxit-workshop\` on Windows) — participant work persists here.
+  - Mounted host folder (`~/Desktop/roxit-workshop/` on macOS/Linux, `%USERPROFILE%\Desktop\roxit-workshop\` on Windows) — participant work persists here.
   - Named Docker volume `roxit-claude-data` — only stores the Claude Code OAuth refresh token.
 - **No host network access**. Container has its own network namespace; reaches the internet via Docker's default bridge.
 
