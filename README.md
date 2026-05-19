@@ -110,9 +110,19 @@ You're ready. ✨
 
 ---
 
-### Your files
+### Step 5 — Open your workspace folder
 
-Your workspace folder appears on your **Desktop**: `roxit-workshop`. Open it with any editor you like (VS Code, Cursor, Zed, Sublime, Notepad++ -- anything works). Files you edit there show up inside the sandbox at `/workspace` and vice versa.
+After the launcher runs, a folder called **`roxit-workshop`** appears on your Desktop:
+
+| Your OS | Path |
+|---|---|
+| 🍎 macOS | `~/Desktop/roxit-workshop` |
+| 🪟 Windows | `C:\Users\<your-name>\Desktop\roxit-workshop` |
+| 🐧 Linux | `~/Desktop/roxit-workshop` |
+
+**Open this folder with any editor you like** — VS Code, Cursor, Zed, Sublime, Notepad++, or anything else. Files you edit there show up inside the sandbox at `/workspace` and vice versa.
+
+> **Two windows, one project:** use your editor to browse and write code, use the **Roxit terminal** (the window from Step 3) to run commands like `claude`, `pnpm dev`, `vercel deploy`.
 
 ---
 
